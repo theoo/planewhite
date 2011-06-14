@@ -20,24 +20,33 @@ class Learning(Widget):
   def __init__(self, **kwargs):
     super(Learning, self).__init__(**kwargs)  
     self.img = Image(source="../images/kand8_1.jpg", size=(1024,768), color=[1,1,1,0.5], pos=(0,0))  
+#    self.points = []
         
   def on_touch_down(self, touch):
     self.draw_ellipse(touch)
     
   def on_touch_move(self, touch):
     self.draw_ellipse(touch)
-  
+    
+  def on_touch_up(self, touch):
+    pass    
+
   def draw_ellipse(self, touch):
-    with self.canvas:            
+#    self.points.append(touch.pos)
+
+    self.canvas.clear()
+       
+    with self.canvas:
       StencilPush()
-      # TODO: bitmap
-      Ellipse(pos=touch.pos, size=(50,50))
-
-      StencilUse()
-      Image(source="../images/kand8_1.jpg", size=(1024,768), color=[1,1,1,0.5], pos=(0,0))
-
-      StencilPop()
+      # Point(pointsize=20., points=self.points)
       
+      Ellipse(pos=touch.pos, size=(50,50))
+      
+      StencilUse()
+      Image(source="../images/kand8_1.jpg", size=(1024,768), color=[1,1,1,1], pos=(0,0))
+      
+      StencilPop()      
+    
       
 class LearningApp(App):
     def build(self):      
