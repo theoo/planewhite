@@ -20,7 +20,6 @@ SCAN_DURATION = 2
 class ScreenSaver(Widget):
   
   def __init__(self, **kwargs):
-    """docstring for fname"""
     super(ScreenSaver, self).__init__(**kwargs)  
     
     self.img = Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,0.5], pos=(0,0))
