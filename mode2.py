@@ -19,7 +19,7 @@ class Learning(Widget):
   
   def __init__(self, **kwargs):
     super(Learning, self).__init__(**kwargs)  
-    self.img = Image(source="../images/kand8_1.jpg", size=(1024,768), color=[1,1,1,0.5], pos=(0,0))  
+    self.img = Image(source="images/kand8_1.jpg", size=(1024,768), color=[1,1,1,0.5], pos=(0,0))  
     self.points = []
         
   def on_touch_down(self, touch):
@@ -52,7 +52,7 @@ class Learning(Widget):
         Ellipse(pos=(pos[0] - diameter / 2, pos[1] - diameter / 2), size=(diameter, diameter))
       
       StencilUse()
-      Image(source="../images/kand8_1.jpg", size=(1024,768), color=[1,1,1,1], pos=(0,0))
+      Image(source="images/kand8_1.jpg", size=(1024,768), color=[1,1,1,1], pos=(0,0))
       
       StencilPop()      
     

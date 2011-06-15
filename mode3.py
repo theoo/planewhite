@@ -35,7 +35,7 @@ class Discovering(Widget):
       
     # First item of self.shapes is the background
     with self.canvas:
-      Image(source="../images/kand8_1.jpg", size=(1024,768), color=[1,1,1,0.2], pos=(0,0))
+      Image(source="images/kand8_1.jpg", size=(1024,768), color=[1,1,1,0.2], pos=(0,0))
 
     # zones of interest
     self.shapes = []
@@ -50,6 +50,7 @@ class Discovering(Widget):
     
     for shape in self.shapes:
       # add shape to view
+      # self.canvas.add(Color(1.,1.,1.,0.))
       self.add_widget(shape)
       
       # add animation

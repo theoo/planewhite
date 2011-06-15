@@ -13,7 +13,7 @@ from kivy.uix.image import Image
 from kivy.graphics import *
 
 # Configuration
-SCAN_IMG_PATH = '../images/scan.png'
+SCAN_IMG_PATH = 'images/scan.png'
 SCAN_DURATION = 2
 
 
