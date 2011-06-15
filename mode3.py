@@ -15,25 +15,59 @@ from kivy.graphics import *
 
 # Configuration
 
+class ZoneOfInterest(Widget):
+  def __init__(self, obj=None, desc=None, pos=(0,0), **kwargs):
+    super(ZoneOfInterest, self).__init__(**kwargs)
+    
+    self.canvas.add(obj)
+    
+    self.object = obj
+    self.desc = desc
+    self.pos = pos
+  
+    self.object.pos = self.pos  
+
+
 class Discovering(Widget):
 
   def __init__(self, **kwargs):
     super(Discovering, self).__init__(**kwargs)
+      
+    # First item of self.shapes is the background
     with self.canvas:
-      Image(source="../images/kand8_1.jpg", size=(1024,768), color=[1,1,1,0.2], pos=(0,0))
-      d = 100
-      Color(1,1,1)
-      Ellipse(size=(d,d), pos=(103 - d/2,236 - d/2))
-      Point(pointsize=10, points=(286.0,521.0))
+      Image(source="images/kand8_1.jpg", size=(1024,768), color=[1,1,1,0.2], pos=(0,0))
+
+    # zones of interest
+    self.shapes = []
+    self.shapes.append( ZoneOfInterest( Ellipse(size=(100,100)),
+                                        "This is a demonstration.",
+                                        (53,186) ) )
+
+    self.shapes.append( ZoneOfInterest( Rectangle(size=(20,100)),
+                                        "This is a demonstration.",
+                                        (320,500) ) )
+
+    
+    for shape in self.shapes:
+      # add shape to view
+      # self.canvas.add(Color(1.,1.,1.,0.))
+      self.add_widget(shape)
+      
+      # add animation
+      
       
   def on_touch_down(self, touch):
-    pass
-    
+    for shape in self.shapes:
+      # add interaction
+      if shape.collide_point(*touch.pos):
+        print "touched " + str(shape.pos)
+        
   def on_touch_move(self, touch):
     pass
     
   def on_touch_up(self, touch):
     pass
+    
       
 class DiscoveringApp(App):
     def build(self):
