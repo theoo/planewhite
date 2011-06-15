@@ -14,7 +14,7 @@ class Client(object):
     self.address = (self.host, self.port)
     self.callback = callback
     self.data = ""
-
+    self.connected = False
     signal.signal(signal.SIGINT, self.onQuit)
     
 
@@ -23,11 +23,17 @@ class Client(object):
       self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
       self.socket.connect(self.address)
     except socket.error, e:
-      print "could not connect to server"
-      sys.exit(0)
+      print "WARNING could not connect to server"
+      return  # we return instead of exiting  see sendMessage and listen for
+      #sys.exit(0)
     self.socket.setblocking(0)
+    self.connected = True
 
   def sendMessage(self, message):
+    # TODO:mmmmmmmmmm
+    if not self.connected:
+      return
+
     #check that data is string
     if not isinstance(message, basestring):
       message = str(message)

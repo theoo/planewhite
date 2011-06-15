@@ -1,11 +1,12 @@
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
-from connectionToServer import Client
-import config
+from lib.connectionToServer import Client
+import lib.config
 
 class Controller(Widget):
   def __init__(self, **kwargs):
     super(Controller, self).__init__(**kwargs)
+    self.clientId = kwargs.pop('cid', 1)
     self.scenes = []
     self.startConnection()
 
