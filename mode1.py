@@ -20,12 +20,15 @@ SCAN_DURATION = 2
 class ScreenSaver(Widget):
   
   def __init__(self, **kwargs):
-    super(ScreenSaver, self).__init__(**kwargs)  
+    if kwargs.has_key("controller"):
+      self.controller = kwargs.pop("controller")
 
-    self.controller = kwargs.pop("controller")
+    super(ScreenSaver, self).__init__(**kwargs)  
+    
     self.img = Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,0.5], pos=(0,0))
     self.add_widget(self.img)
     self.start()
+
 
   def start(self):
     Clock.schedule_once(self.scan, 0)
@@ -38,14 +41,14 @@ class ScreenSaver(Widget):
     
     a.bind(on_complete=self.onAnimComplete)
 
+
   def onAnimComplete(self, animation, target):
-    self.controller.sendMessage("scan_end") 
+    self.controller.sendMessage("scan_end") # sync next client
+
 
   def on_touch_down(self, touch):
-    self.controller.sendMessage("touched")
+    self.controller.sendMessage("screensaver_touched") # go to next mode
 
-      
-      
       
 if __name__ == '__main__':
   class ScreenSaverApp(App):

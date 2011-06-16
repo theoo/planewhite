@@ -15,7 +15,4 @@ class PlaneWhiteApp(App):
     print "onClose"
 
 
-
-
 PlaneWhiteApp().run()
-

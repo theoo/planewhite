@@ -23,6 +23,7 @@ CUT = ( "images/cut/2_258x574.png", (258, 768 - 574) )
 
 
 class ZoneOfInterest(Widget):
+  
   def __init__(self, obj=None, desc=None, pos=(0,0), **kwargs):
     super(ZoneOfInterest, self).__init__(**kwargs)
 
@@ -34,10 +35,11 @@ class ZoneOfInterest(Widget):
     self.canvas.add(self.color)
     self.canvas.add(obj)
     
-    self.object = obj
     self.desc = desc
     self.pos = pos
+    self.object = obj
     self.object.pos = self.pos
+    self.viewed = False # toggled once widget is viewed
 
     # TODO:  this extend the touch area (collision) to the size of image. 
     # If image isn't square the whole widget is touch-able.
@@ -59,12 +61,14 @@ class ZoneOfInterest(Widget):
       Rectangle(size=box_size, pos=box_position)
 
     self.desc_box = desc_box
-    
 
 
 class Discovering(Widget):
 
   def __init__(self, **kwargs):
+    if kwargs.has_key("controller"):
+      self.controller = kwargs.pop("controller")
+          
     super(Discovering, self).__init__(**kwargs)
       
     # First item of self.shapes is the background
@@ -86,9 +90,24 @@ class Discovering(Widget):
       # add to the view
       self.add_widget(shape)
 
+#    Clock.schedule_interval(self.checkIfModeIsCompleted,0.5)
+
+
+  def checkIfModeIsCompleted(self, instance=False):
+    # exits if not all shapes are viewed
+    for shape in self.shapes:
+      if not shape.viewed:
+        return
+    
+    # reset views for next iteration
+    for shape in self.shapes:
+      shape.viewed = False
+      
+    print "All zones of interest seens"
+    self.controller.sendMessage("zones_of_interest_viewed") # go to next mode
+
 
   def pulse(self, dt):
-    
     for shape in self.shapes:
       # TODO: improve!
       if shape.alpha_direction == 0:
@@ -106,24 +125,40 @@ class Discovering(Widget):
       shape.color = Color(1,1,1,shape.alpha_index)
       shape.canvas.insert(0, shape.color )
 
+
   def clear(self, instance):
     for shape in self.shapes:
       self.remove_widget(shape.desc_box)
+      shape.viewed = False
+
       
   def on_touch_down(self, touch):
     pass
+
         
   def on_touch_move(self, touch):
     pass
+
     
   def on_touch_up(self, touch):
+    # check if mode is complete before so I can read the text.
+    # Next touch will throw a message to the server
+    self.checkIfModeIsCompleted()
+
     for shape in self.shapes:
       # add interaction
       if shape.collide_point(*touch.pos):
         if self.children.count(shape.desc_box) < 1:
+          # displays text box
+          # TODO: Clock.unschedule()
           self.add_widget(shape.desc_box)
-          
-class DiscoveringApp(App):
+          shape.viewed = True
+
+
+      
+if __name__ == '__main__':
+  class DiscoveringApp(App):
+  
     def build(self):
       base = Widget()
       
@@ -135,6 +170,5 @@ class DiscoveringApp(App):
 #      base.add_widget(clearbtn)
       
       return base
-      
-if __name__ == '__main__':
-    DiscoveringApp().run()
+
+  DiscoveringApp().run()
