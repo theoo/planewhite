@@ -18,6 +18,8 @@ BACKGROUND = "images/bgs/2.jpg"
 FADE_IN_SPEED = 0.01
 ALPHA_INDEX_STEP = 0.01
 
+
+########################################################################
 class Credits(Widget):
   
   def __init__(self, **kwargs):
@@ -37,6 +39,16 @@ class Credits(Widget):
     Clock.schedule_once(self.announceTheEnd, 60) # restart screensaver
 
 
+# basis
+  def start(self):
+    pass
+
+    
+  def stop(self):
+    pass
+
+
+# Custom methods
   def fadeIn(self, instance=False):
     self.alpha_index += ALPHA_INDEX_STEP
     
@@ -47,7 +59,8 @@ class Credits(Widget):
     if self.alpha_index <= 1.0:
       Clock.schedule_once(self.fadeIn,FADE_IN_SPEED)
 
-  
+
+# Custom callbacks  
   def displayCredits(self, instance=False):
     self.add_widget(Label(text="Credits", font_size=20, color=(1,1,1,1)))
 
@@ -56,20 +69,24 @@ class Credits(Widget):
     print "This is the end."
     self.controller.sendMessage("credits_timeout") # go back to mode1, ScreenSaver
     
-    
+
+# Kivy callbacks    
   def on_touch_down(self, touch):
     # Doesn't do anything if touched within the tenth first seconds.
     if Clock.get_boottime() > 10.0:
       print "Credits touched at, ", Clock.get_boottime()
       self.controller.sendMessage("credits_touched") # go back to mode2, Learning 
-    
+
+
+########################################################################
+
       
-class CreditsApp(App):
+if __name__ == '__main__':
+  class CreditsApp(App):
     def build(self):      
       base = Widget()
       base.add_widget(Credits())
       
       return base
       
-if __name__ == '__main__':
-    CreditsApp().run()
+  CreditsApp().run()

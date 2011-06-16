@@ -17,6 +17,8 @@ from kivy.graphics import *
 MAX_POINTS = 250
 BACKGROUND = "images/bgs/2.jpg"
 
+
+########################################################################
 class Learning(Widget):
   
   def __init__(self, **kwargs):
@@ -28,29 +30,26 @@ class Learning(Widget):
     self.img = Image(source=BACKGROUND, size=(1024,768), color=[1,1,1,0.5], pos=(0,0))  
     self.points = []
 
+# basis
+  def start(self):
+    pass
 
+    
+  def stop(self):
+    pass
+
+
+  def reset(self, instance):
+    self.points = []
+
+
+# Custom methods
   def checkIfModeIsCompleted(self):
     if len(self.points) >= MAX_POINTS:
       print "Max point reached with ", str(len(self.points))
       self.reset()
       self.controller.sendMessage("threshold_reached") # go to next mode
 
-
-  def reset(self, instance):
-    self.points = []
-
-    
-  def on_touch_down(self, touch):
-    self.draw_ellipse(touch)
-    
-
-  def on_touch_move(self, touch):
-    self.draw_ellipse(touch)       
-
-
-  def on_touch_up(self, touch):
-    self.checkIfModeIsCompleted()
-        
 
   def draw_ellipse(self, touch):
     # Use this instead of "append" if you are displaying Point cloud.
@@ -75,7 +74,24 @@ class Learning(Widget):
       StencilUse()
       Image(source=BACKGROUND, size=(1024,768), color=[1,1,1,1], pos=(0,0))
       
-      StencilPop()      
+      StencilPop()  
+      
+# Custom Callbacks
+
+# Kivy Callbacks    
+  def on_touch_down(self, touch):
+    self.draw_ellipse(touch)
+    
+
+  def on_touch_move(self, touch):
+    self.draw_ellipse(touch)       
+
+
+  def on_touch_up(self, touch):
+    self.checkIfModeIsCompleted()    
+
+
+########################################################################
 
       
 if __name__ == '__main__':

@@ -22,6 +22,7 @@ BACKGROUND = "images/bgs/2.jpg"
 CUT = ( "images/cut/2_258x574.png", (258, 768 - 574) )
 
 
+########################################################################
 class ZoneOfInterest(Widget):
   
   def __init__(self, obj=None, desc=None, pos=(0,0), **kwargs):
@@ -63,6 +64,7 @@ class ZoneOfInterest(Widget):
     self.desc_box = desc_box
 
 
+########################################################################
 class Discovering(Widget):
 
   def __init__(self, **kwargs):
@@ -90,9 +92,23 @@ class Discovering(Widget):
       # add to the view
       self.add_widget(shape)
 
-#    Clock.schedule_interval(self.checkIfModeIsCompleted,0.5)
+
+# basis
+  def start(self):
+    pass
+
+    
+  def stop(self):
+    pass
 
 
+  def reset(self, instance):
+    for shape in self.shapes:
+      self.remove_widget(shape.desc_box)
+      shape.viewed = False
+
+    
+# Custom methods
   def checkIfModeIsCompleted(self, instance=False):
     # exits if not all shapes are viewed
     for shape in self.shapes:
@@ -124,16 +140,13 @@ class Discovering(Widget):
       shape.canvas.insert(0, shape.color )
 
 
-  def reset(self, instance):
-    for shape in self.shapes:
-      self.remove_widget(shape.desc_box)
-      shape.viewed = False
+# Custom callbacks
 
-      
+# Kivy callbacks
   def on_touch_down(self, touch):
     pass
 
-        
+     
   def on_touch_move(self, touch):
     pass
 
@@ -152,6 +165,8 @@ class Discovering(Widget):
           self.add_widget(shape.desc_box)
           shape.viewed = True
 
+
+########################################################################
 
       
 if __name__ == '__main__':
