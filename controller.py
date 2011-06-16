@@ -9,21 +9,54 @@ class Controller(Widget):
   def __init__(self, **kwargs):
     super(Controller, self).__init__(**kwargs)
     self.clientId = kwargs.pop('cid', 1)
-    self.modes = [ScreenSaver(controller=self)]
+    self.modes = [ScreenSaver(controller=self, modeId=1)]
+    self.currentModeId = -1
     self.startConnection()
 
-    self.add_widget(self.modes[0])
 
 
   def sendMessage(self, message):
     self.connection.sendMessage(message)
+
+
+
+
+  def stopCurrentMode(self):
+    if self.currenModeId == -1:
+      return
+
+    self.currentMode.stop()
+    self.remove_widget(self.currentMode)
+
+
+
+  def startCurrentMode(self):
+    self.add_widget(self.currentMode)
+    self.currentMode.stop()
   
 
 
+  # messages from server arrive here
+  #
   def onNewMessageFromServer(self, message):
     print "new message from server:", message
-    #parse.parseMessage(message, self.ball)
+    #
+    # mr piggy was here...
+    if message == "change_mode/1":
+      self.currenModeId = 1
+      stopCurrentMode()
+      updateCurrentMode()
+      startCurrentMode()
 
+
+
+  def updateCurrentMode():
+    self.currentMode = self.modes[self.currentModeId - 1]  
+
+
+
+  # connection stuff
+  #
   def connectionListen(self, dt):
     self.connection.listen()
 
