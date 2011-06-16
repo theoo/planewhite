@@ -1,4 +1,4 @@
-# ScreenSaver
+# Discovering
 
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
@@ -9,9 +9,12 @@ from kivy.animation import Animation
 
 from kivy.uix.stencilview import StencilView
 from kivy.uix.label import Label
-from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.button import Button
 
 from kivy.core.image import Image
+from kivy.core.text import LabelBase
 from kivy.graphics import *
 
 # Configuration
@@ -34,13 +37,30 @@ class ZoneOfInterest(Widget):
     self.object = obj
     self.desc = desc
     self.pos = pos
+    self.object.pos = self.pos
 
-    desc_box = BoxLayout(size=(300,300))
-    content = Label(text=self.desc, font_size=20, color=(0,0,0,1))
-    desc_box.add_widget(content)
+    # TODO:  this extend the touch area (collision) to the size of image. 
+    # If image isn't square the whole widget is touch-able.
+    self.size = obj.size
+    
+    box_size = (450,150)
+    box_position = (self.x - 100, self.y + self.height)
+    desc_box = Label( text=self.desc, 
+                      font_size=20, 
+                      text_size=(200, None), 
+                      size=box_size,
+                      pos=box_position,
+                      color=(1,1,1,1))
+    
+    # what's in this canvas ? Inspect instruction
+    
+    with desc_box.canvas:
+      Color(0,0,0,0.5)
+      Rectangle(size=box_size, pos=box_position)
+
+
     self.desc_box = desc_box
     
-    self.object.pos = self.pos
 
 
 class Discovering(Widget):
@@ -58,7 +78,7 @@ class Discovering(Widget):
 
     img = Image(CUT[0])
     self.shapes.append( ZoneOfInterest( Rectangle(texture=img.texture, size=img.size),
-                                        "This is a wonderful demonstration of ten words for carina's sake.",
+                                        "This is a wonderful demonstration\n of ten words for carina's sake.",
                                         CUT[1] ) )
 
     Clock.schedule_interval(self.pulse, 0.1)
@@ -66,7 +86,6 @@ class Discovering(Widget):
     for shape in self.shapes:            
       # add to the view
       self.add_widget(shape)
-
 
 
   def pulse(self, dt):
@@ -88,25 +107,33 @@ class Discovering(Widget):
       shape.color = Color(1,1,1,shape.alpha_index)
       shape.canvas.insert(0, shape.color )
 
+  def clear(self, instance):
+    for shape in self.shapes:
+      self.remove_widget(shape.desc_box)
       
   def on_touch_down(self, touch):
-    for shape in self.shapes:
-      # add interaction
-      if shape.collide_point(*touch.pos):
-        if self.children.count(shape.desc_box) < 1:
-          self.add_widget(shape.desc_box)        
+    pass
         
   def on_touch_move(self, touch):
     pass
     
   def on_touch_up(self, touch):
-    pass
-    
-      
+    for shape in self.shapes:
+      # add interaction
+      if shape.collide_point(*touch.pos):
+        if self.children.count(shape.desc_box) < 1:
+          self.add_widget(shape.desc_box)
+          
 class DiscoveringApp(App):
     def build(self):
       base = Widget()
-      base.add_widget(Discovering())
+      
+      discovering = Discovering()
+      base.add_widget(discovering)
+    
+#      clearbtn = Button(text="clear", font_size=14)
+#      clearbtn.bind(on_release=discovering.clear)
+#      base.add_widget(clearbtn)
       
       return base
       

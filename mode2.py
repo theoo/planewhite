@@ -1,4 +1,4 @@
-# ScreenSaver
+# Learning
 
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
