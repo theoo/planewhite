@@ -19,7 +19,7 @@ class Credits(Widget):
   
   def __init__(self, **kwargs):
     super(Credits, self).__init__(**kwargs)  
-    self.img = Image(source=BACKGROUND, size=(1024,768), color=[1,1,1,0.5])  
+    self.img = Image(source=BACKGROUND, size=(1024,768), color=[1,1,1,1])  
     self.add_widget(self.img)
         
   def on_touch_down(self, touch):

@@ -51,13 +51,12 @@ class ZoneOfInterest(Widget):
                       size=box_size,
                       pos=box_position,
                       color=(1,1,1,1))
-    
+        
     # what's in this canvas ? Inspect instruction
     
     with desc_box.canvas:
       Color(0,0,0,0.5)
       Rectangle(size=box_size, pos=box_position)
-
 
     self.desc_box = desc_box
     
