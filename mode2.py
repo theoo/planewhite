@@ -28,15 +28,15 @@ class Learning(Widget):
     self.img = Image(source=BACKGROUND, size=(1024,768), color=[1,1,1,0.5], pos=(0,0))  
     self.points = []
 
-#    Clock.schedule_interval(self.checkIfModeIsCompleted, 0.5)
 
   def checkIfModeIsCompleted(self):
-    if self.points.__len__() >= MAX_POINTS:
-      print "Max point reached with ", str(self.points.__len__())
+    if len(self.points) >= MAX_POINTS:
+      print "Max point reached with ", str(len(self.points))
+      self.reset()
       self.controller.sendMessage("threshold_reached") # go to next mode
 
 
-  def clear(self, instance):
+  def reset(self, instance):
     self.points = []
 
     

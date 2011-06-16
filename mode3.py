@@ -99,12 +99,10 @@ class Discovering(Widget):
       if not shape.viewed:
         return
     
-    # reset views for next iteration
-    for shape in self.shapes:
-      shape.viewed = False
+    self.reset()
       
     print "All zones of interest seens"
-    self.controller.sendMessage("zones_of_interest_viewed") # go to next mode
+    self.controller.sendMessage("all_zones_of_interest_viewed") # go to next mode
 
 
   def pulse(self, dt):
@@ -126,7 +124,7 @@ class Discovering(Widget):
       shape.canvas.insert(0, shape.color )
 
 
-  def clear(self, instance):
+  def reset(self, instance):
     for shape in self.shapes:
       self.remove_widget(shape.desc_box)
       shape.viewed = False
