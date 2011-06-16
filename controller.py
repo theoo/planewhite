@@ -30,12 +30,6 @@ class Controller(Widget):
 
 
 
-  def startCurrentMode(self):
-    self.add_widget(self.currentMode)
-    self.currentMode.stop()
-  
-
-
   # messages from server arrive here
   #
   def onNewMessageFromServer(self, message):
@@ -46,8 +40,10 @@ class Controller(Widget):
       self.stopCurrentMode()
       self.currentModeId = 1 # this must be called after stopCurrentMode() !!
       self.updateCurrentMode()
-      self.startCurrentMode()
-
+      self.add_widget(self.currentMode)
+      # only start if we are numero uno
+      if self.clientId == "1":
+        self.currentMode.start()
 
 
   def updateCurrentMode(self):

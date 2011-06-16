@@ -30,6 +30,7 @@ class ScreenSaver(Widget):
 
 
   def start(self):
+    print "start called on ScreenSaver"
     Clock.schedule_once(self.scan, 0)
 
 
