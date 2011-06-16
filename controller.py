@@ -50,7 +50,7 @@ class Controller(Widget):
 
 
 
-  def updateCurrentMode():
+  def updateCurrentMode(self):
     self.currentMode = self.modes[self.currentModeId - 1]  
 
 
