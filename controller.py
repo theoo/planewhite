@@ -55,7 +55,7 @@ class Controller(Widget):
       self.currentModeId = 2
       self.updateCurrentMode()
       self.add_widget(self.currentMode)
-      self.start()
+      self.currentMode.start()
 
 
   def updateCurrentMode(self):
