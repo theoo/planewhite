@@ -25,6 +25,7 @@ class Learning(Widget):
 
     super(Learning, self).__init__(**kwargs)  
 
+    self.modeId = kwargs.pop("modeId") 
     self.img = Image(source=BACKGROUND, size=(1024,768), color=[1,1,1,0.5], pos=(0,0))  
     self.points = []
 
@@ -34,6 +35,12 @@ class Learning(Widget):
       print "Max point reached with ", str(len(self.points))
       self.reset()
       self.controller.sendMessage("threshold_reached") # go to next mode
+
+  def start(self):
+    pass
+
+  def stop(self):
+    pass
 
 
   def reset(self, instance):

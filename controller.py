@@ -4,12 +4,14 @@ from lib.connectionToServer import Client
 import lib.config
 
 from mode1 import ScreenSaver
+from mode2 import Learning
 
 class Controller(Widget):
   def __init__(self, **kwargs):
     super(Controller, self).__init__(**kwargs)
     self.clientId = kwargs.pop('cid', 1)
-    self.modes = [ScreenSaver(controller=self, modeId=1)]
+    self.modes = [ScreenSaver(controller=self, modeId=1),
+                  Learning(controller=self, modeId=2)]
     self.currentModeId = -1
     self.startConnection()
 
@@ -47,6 +49,13 @@ class Controller(Widget):
         self.currentMode.start()
     elif message == "scan_start":
       self.currentMode.start()
+    # mode 2 messages
+    elif message == "change_mode/2":
+      self.stopCurrentMode()
+      self.currentModeId = 2
+      self.updateCurrentMode()
+      self.add_widget(self.currentMode)
+      self.start()
 
 
   def updateCurrentMode(self):
