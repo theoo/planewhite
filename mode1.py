@@ -21,28 +21,36 @@ class ScreenSaver(Widget):
   
   def __init__(self, **kwargs):
     super(ScreenSaver, self).__init__(**kwargs)  
-    
+
+    self.controller = kwargs.pop("controller")
     self.img = Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,0.5], pos=(0,0))
     self.add_widget(self.img)
+    self.start()
 
-    Clock.schedule_interval(self.scan, SCAN_DURATION)
+  def start(self):
+    Clock.schedule_once(self.scan, 0)
 
 
   def scan(self, dt):
     self.img.pos = (0,0)
     a = Animation(pos=(Window.width, 0), duration=SCAN_DURATION)
     a.start(self.img)
+    
+    a.bind(on_complete=self.onAnimComplete)
 
+  def onAnimComplete(self, animation, target):
+    self.controller.sendMessage("scan_end") 
 
-  def on_touch_move(self, touch):
-    pass #debug
+  def on_touch_down(self, touch):
+    self.controller.sendMessage("touched")
+
       
       
-class ScreenSaverApp(App):
-    def build(self):
-      base = Widget()
-      base.add_widget(ScreenSaver())
-      return base
       
 if __name__ == '__main__':
-    ScreenSaverApp().run()
+  class ScreenSaverApp(App):
+      def build(self):
+        base = Widget()
+        base.add_widget(ScreenSaver())
+        return base
+  ScreenSaverApp().run()
