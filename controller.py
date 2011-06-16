@@ -22,7 +22,7 @@ class Controller(Widget):
 
 
   def stopCurrentMode(self):
-    if self.currenModeId == -1:
+    if self.currentModeId == -1:
       return
 
     self.currentMode.stop()
