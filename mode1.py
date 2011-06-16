@@ -48,11 +48,13 @@ class ScreenSaver(Widget):
 
 # Custom Callbacks
   def onAnimComplete(self, animation, target):
+    print "Scan reached right of screen."
     self.controller.sendMessage("scan_end") # sync next client
 
 
 # Kivy Callbacks
   def on_touch_down(self, touch):
+    print "Screensaver touched."
     self.controller.sendMessage("screensaver_touched") # go to next mode
 
 
