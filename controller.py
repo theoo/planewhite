@@ -43,8 +43,8 @@ class Controller(Widget):
     #
     # mr piggy was here...
     if message == "change_mode/1":
-      self.currenModeId = 1
       self.stopCurrentMode()
+      self.currenModeId = 1 # this must be called after stopCurrentMode() !!
       self.updateCurrentMode()
       self.startCurrentMode()
 
