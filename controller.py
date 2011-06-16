@@ -36,26 +36,32 @@ class Controller(Widget):
   #
   def onNewMessageFromServer(self, message):
     print "new message from server:", message
-    #
-    # mr piggy was here...
-    # mode 1 messages
-    if message == "change_mode/1":
+
+    if message == "reset_all":
       self.stopCurrentMode()
-      self.currentModeId = 1 # this must be called after stopCurrentMode() !!
+      self.currentModeId = -1
+
+    elif message == "change_mode/1":        # mode 1 messages
+      self.stopCurrentMode()
+      self.currentModeId = 1 
       self.updateCurrentMode()
       self.add_widget(self.currentMode)
       # only start if we are numero uno
       if self.clientId == "1":
         self.currentMode.start()
+
     elif message == "scan_start":
       self.currentMode.start()
-    # mode 2 messages
-    elif message == "change_mode/2":
+   
+    elif message == "change_mode/2":        # mode 2 messages
       self.stopCurrentMode()
       self.currentModeId = 2
       self.updateCurrentMode()
       self.add_widget(self.currentMode)
       self.currentMode.start()
+
+    else:
+      print "message is not recognized:", message
 
 
   def updateCurrentMode(self):
