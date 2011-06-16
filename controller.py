@@ -44,13 +44,14 @@ class Controller(Widget):
     # mr piggy was here...
     if message == "change_mode/1":
       self.stopCurrentMode()
-      self.currenModeId = 1 # this must be called after stopCurrentMode() !!
+      self.currentModeId = 1 # this must be called after stopCurrentMode() !!
       self.updateCurrentMode()
       self.startCurrentMode()
 
 
 
   def updateCurrentMode(self):
+    # TODO: check over/under flows
     self.currentMode = self.modes[self.currentModeId - 1]  
 
 
