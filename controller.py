@@ -36,6 +36,7 @@ class Controller(Widget):
     print "new message from server:", message
     #
     # mr piggy was here...
+    # mode 1 messages
     if message == "change_mode/1":
       self.stopCurrentMode()
       self.currentModeId = 1 # this must be called after stopCurrentMode() !!
@@ -44,6 +45,8 @@ class Controller(Widget):
       # only start if we are numero uno
       if self.clientId == "1":
         self.currentMode.start()
+    elif message == "scan_start":
+      self.currentMode.start()
 
 
   def updateCurrentMode(self):
