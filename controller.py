@@ -9,11 +9,15 @@ class Controller(Widget):
   def __init__(self, **kwargs):
     super(Controller, self).__init__(**kwargs)
     self.clientId = kwargs.pop('cid', 1)
-    self.modes = [ScreenSaver()]
+    self.modes = [ScreenSaver(controller=self)]
     self.startConnection()
 
     self.add_widget(self.modes[0])
 
+
+  def sendMessage(self, message):
+    self.connection.sendMessage(message)
+  
 
 
   def onNewMessageFromServer(self, message):
