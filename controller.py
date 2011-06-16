@@ -14,6 +14,7 @@ class Controller(Widget):
                   Learning(controller=self, modeId=2)]
     self.currentModeId = -1
     self.startConnection()
+    self.actOnServerCommands = False
 
 
 
@@ -38,10 +39,12 @@ class Controller(Widget):
     print "new message from server:", message
 
     if message == "reset_all":
+      self.actOnServerCommands = False
       self.stopCurrentMode()
       self.currentModeId = -1
 
     elif message == "change_mode/1":        # mode 1 messages
+      self.actOnServerCommands = True
       self.stopCurrentMode()
       self.currentModeId = 1 
       self.updateCurrentMode()
@@ -51,7 +54,8 @@ class Controller(Widget):
         self.currentMode.start()
 
     elif message == "scan_start":
-      self.currentMode.start()
+      if self.actOnServerCommands:
+        self.currentMode.start()
    
     elif message == "change_mode/2":        # mode 2 messages
       self.stopCurrentMode()
