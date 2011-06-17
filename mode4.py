@@ -33,13 +33,14 @@ class Credits(Widget):
 
     self.alpha_index = 0.0
 
-    Clock.schedule_once(self.fadeIn, 0)
-    Clock.schedule_once(self.displayCredits, 30) # easter eggs
-    Clock.schedule_once(self.announceTheEnd, 60) # restart screensaver
 
 
   def start(self):
-    pass
+    self.alpha_index = 0.0
+    Clock.schedule_once(self.fadeIn, 0)
+    Clock.schedule_once(self.displayCredits, 30) # easter eggs
+    Clock.schedule_once(self.announceTheEnd, 60) # restart screensaver
+    
 
   def stop(self):
     pass

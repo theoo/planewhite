@@ -80,6 +80,13 @@ class Controller(Widget):
       self.add_widget(self.currentMode)
       self.currentMode.start()
 
+    elif message == "change_mode/4":
+      self.stopCurrentMode()
+      sefl.currentModeId = 4
+      self.updateCurrentMode()
+      self.add_widget(self.currentMode)
+      self.currentMode.start()
+
     else:
       print "message is not recognized:", message
 
