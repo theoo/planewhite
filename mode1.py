@@ -14,7 +14,7 @@ from kivy.graphics import *
 
 # Configuration
 SCAN_IMG_PATH = 'images/scan.png'
-SCAN_DURATION = 2.0
+SCAN_DURATION = 1.0
 NETWORK_DELAY = 0 # frames
 
 
