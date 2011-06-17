@@ -5,13 +5,18 @@ import lib.config
 
 from mode1 import ScreenSaver
 from mode2 import Learning
+from mode3 import ZoneOfInterest
+from mode4 import Credits
 
 class Controller(Widget):
   def __init__(self, **kwargs):
     super(Controller, self).__init__(**kwargs)
     self.clientId = kwargs.pop('cid', 1)
     self.modes = [ScreenSaver(controller=self, modeId=1),
-                  Learning(controller=self, modeId=2)]
+                  Learning(controller=self, modeId=2),
+                  ZoneOfInterest(controller=self, modeId=3),
+                  Credits(controller=sefl, modeId=4)]
+
     self.currentModeId = -1
     self.startConnection()
     self.serverIsReady = False
@@ -63,6 +68,13 @@ class Controller(Widget):
     elif message == "change_mode/2":        # mode 2 messages
       self.stopCurrentMode()
       self.currentModeId = 2
+      self.updateCurrentMode()
+      self.add_widget(self.currentMode)
+      self.currentMode.start()
+
+    elif message == "change_mode/3":      # mode 3 messages
+      self.stopCurrentMode()
+      self.currentModeId = 3
       self.updateCurrentMode()
       self.add_widget(self.currentMode)
       self.currentMode.start()
