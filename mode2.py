@@ -43,7 +43,7 @@ class Learning(Widget):
     pass
 
 
-  def reset(self, instance):
+  def reset(self):
     self.points = []
 
     

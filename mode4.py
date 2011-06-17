@@ -24,7 +24,8 @@ class Credits(Widget):
     
     if kwargs.has_key("controller"):
       self.controller = kwargs.pop("controller")
-      
+    self.modeId = kwargs.pop("modeId") 
+
     super(Credits, self).__init__(**kwargs)  
 
     with self.canvas:

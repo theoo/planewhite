@@ -27,6 +27,11 @@ class ZoneOfInterest(Widget):
   def __init__(self, obj=None, desc=None, pos=(0,0), **kwargs):
     super(ZoneOfInterest, self).__init__(**kwargs)
 
+    
+    if kwargs.has_key("controller"):
+      self.controller = kwargs.pop("controller")
+    self.modeId = kwargs.pop("modeId") 
+    
     self.alpha_index = 0.0
     self.alpha_direction = 0
 
