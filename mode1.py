@@ -14,7 +14,8 @@ from kivy.graphics import *
 
 # Configuration
 SCAN_IMG_PATH = 'images/scan.png'
-SCAN_DURATION = 2
+SCAN_DURATION = 2.0
+NETWORK_DELAY = 0 # frames
 
 
 ########################################################################
@@ -26,9 +27,15 @@ class ScreenSaver(Widget):
     if kwargs.has_key("controller"):
       self.controller = kwargs.pop("controller")
 
-    self.modeId = kwargs.pop("modeId") 
+    if kwargs.has_key("modeId"):
+      self.modeId = kwargs.pop("modeId") 
+    
+    self.scan_endMessageSent = False
+      
     self.img = Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,0.5], pos=(0,0))
     self.add_widget(self.img)
+
+
 
 # basis
   def start(self):
@@ -37,22 +44,32 @@ class ScreenSaver(Widget):
 
 
   def stop(self):
-    pass
+    self.reset()
+    
+    
+  def reset(self):
+    self.scan_endMessageSent = False
 
 
 # Custom methods
   def scan(self, dt):
-    self.img.pos = (0,0)
-    a = Animation(pos=(Window.width, 0), duration=SCAN_DURATION)
-    a.start(self.img)
-    
-    a.bind(on_complete=self.onAnimComplete)
-
+    self.img.pos = (-self.img.width,0)
+    a1 = Animation(pos=(Window.width, 0), duration=SCAN_DURATION)
+    a1.bind(on_progress=self.syncServerCommunication)
+    a1.start(self.img)
+    a1.bind(on_complete=self.onAnimComplete)
 
 # Custom Callbacks
-  def onAnimComplete(self, animation, target):
-    print "Scan reached right of screen."
-    self.controller.sendMessage("scan_end") # sync next client
+  def onAnimComplete(self, animation=False, target=False):
+    self.reset()
+    
+
+  def syncServerCommunication(self, animation, target, progression):
+    if target.x >= (1024 - target.width - NETWORK_DELAY):
+      if not self.scan_endMessageSent:
+        print "Scan reached right of screen."
+        self.controller.sendMessage("scan_end") # sync next client
+        self.scan_endMessageSent = True
 
 
 # Kivy Callbacks
@@ -66,6 +83,9 @@ if __name__ == '__main__':
   class ScreenSaverApp(App):
       def build(self):
         base = Widget()
-        base.add_widget(ScreenSaver())
+        ss = ScreenSaver()
+        ss.start()
+        base.add_widget(ss)
+        
         return base
   ScreenSaverApp().run()
