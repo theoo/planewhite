@@ -28,6 +28,10 @@ class ZoneOfInterest(Widget):
   def __init__(self, obj=None, desc=None, pos=(0,0), **kwargs):
     super(ZoneOfInterest, self).__init__(**kwargs)
 
+    
+    if kwargs.has_key("controller"):
+      self.controller = kwargs.pop("controller")
+    
     self.alpha_index = 0.0
     self.alpha_direction = 0
 
@@ -73,6 +77,7 @@ class Discovering(Widget):
           
     super(Discovering, self).__init__(**kwargs)
       
+    self.modeId = kwargs.pop("modeId") 
     # First item of self.shapes is the background
     bg = Image(BACKGROUND)    
     with self.canvas:
@@ -106,7 +111,6 @@ class Discovering(Widget):
     for shape in self.shapes:
       self.remove_widget(shape.desc_box)
       shape.viewed = False
-
     
 # Custom methods
   def checkIfModeIsCompleted(self, instance=False):
@@ -141,6 +145,7 @@ class Discovering(Widget):
 
 
 # Custom callbacks
+
 
 # Kivy callbacks
   def on_touch_down(self, touch):

@@ -17,27 +17,96 @@ class Controller(Widget):
   def __init__(self, **kwargs):
     super(Controller, self).__init__(**kwargs)
     self.clientId = kwargs.pop('cid', 1)
-    self.modes = [ScreenSaver(controller=self),
-                  Learning(controller=self),
-                  Discovering(controller=self),
-                  Credits(controller=self)]
-                  
-    self.startConnection()
+    
+    self.modes = [ScreenSaver(controller=self, modeId=1),
+                  Learning(controller=self, modeId=2),
+                  Discovering(controller=self, modeId=3),
+                  Credits(controller=self, modeId=4)]
 
-    transition = Fade(dir=0, color=Color(0,0,0,1), fade_speed=0.1)
-    self.add_widget(transition)
-    self.add_widget(self.modes[0])
-    transition.start()
+    self.currentModeId = -1
+
+    self.startConnection()
+    self.serverIsReady = False
+
+#    transition = Fade(dir=0, color=Color(0,0,0,1), fade_speed=0.1)
+#    self.add_widget(transition)
+#    self.add_widget(self.modes[0])
+#    transition.start()
+
 
   def sendMessage(self, message):
     print "Sending message ", message
     self.connection.sendMessage(message)
-  
 
+
+  def stopCurrentMode(self):
+    if self.currentModeId == -1:
+      return
+
+    self.currentMode.stop()
+    self.remove_widget(self.currentMode)
+
+
+  # messages from server arrive here
+  #
   def onNewMessageFromServer(self, message):
     print "new message from server:", message
 
+    if message == "reset_all":
+      #TODO cleanup serverIsReady hack
+      self.serverIsReady = False
 
+      self.stopCurrentMode()
+      self.currentModeId = -1
+
+    elif message == "change_mode/1":        # mode 1 messages
+      self.serverIsReady = True
+
+      self.stopCurrentMode()
+      self.currentModeId = 1 
+      self.updateCurrentMode()
+      self.add_widget(self.currentMode)
+      # only start if we are numero uno
+      if self.clientId == "1":
+        self.currentMode.start()
+
+    elif message == "scan_start":
+      if self.serverIsReady:
+        self.currentMode.start()
+   
+    elif message == "change_mode/2":        # mode 2 messages
+      self.stopCurrentMode()
+      self.currentModeId = 2
+      self.updateCurrentMode()
+      self.add_widget(self.currentMode)
+      self.currentMode.start()
+
+    elif message == "change_mode/3":      # mode 3 messages
+      self.stopCurrentMode()
+      self.currentModeId = 3
+      self.updateCurrentMode()
+      self.add_widget(self.currentMode)
+      self.currentMode.start()
+
+    elif message == "change_mode/4":
+      self.stopCurrentMode()
+      self.currentModeId = 4
+      self.updateCurrentMode()
+      self.add_widget(self.currentMode)
+      self.currentMode.start()
+
+    else:
+      print "message is not recognized:", message
+
+
+  def updateCurrentMode(self):
+    # TODO: check over/under flows
+    self.currentMode = self.modes[self.currentModeId - 1]  
+
+
+
+  # connection stuff
+  #
   def connectionListen(self, dt):
     self.connection.listen()
 

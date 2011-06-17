@@ -21,21 +21,24 @@ SCAN_DURATION = 2
 class ScreenSaver(Widget):
   
   def __init__(self, **kwargs):
+    super(ScreenSaver, self).__init__(**kwargs)  
+
     if kwargs.has_key("controller"):
       self.controller = kwargs.pop("controller")
 
-    super(ScreenSaver, self).__init__(**kwargs)  
-    
+    self.modeId = kwargs.pop("modeId") 
     self.img = Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,0.5], pos=(0,0))
     self.add_widget(self.img)
-    self.start()
 
 # basis
   def start(self):
+    print "start called on ScreenSaver"
     Clock.schedule_once(self.scan, 0)
+
 
   def stop(self):
     pass
+
 
 # Custom methods
   def scan(self, dt):

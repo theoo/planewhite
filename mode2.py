@@ -27,6 +27,7 @@ class Learning(Widget):
 
     super(Learning, self).__init__(**kwargs)  
 
+    self.modeId = kwargs.pop("modeId") 
     self.img = Image(source=BACKGROUND, size=(1024,768), color=[1,1,1,0.5], pos=(0,0))  
     self.points = []
 
@@ -37,9 +38,9 @@ class Learning(Widget):
     
   def stop(self):
     pass
+    
 
-
-  def reset(self, instance):
+  def reset(self):
     self.points = []
 
 
