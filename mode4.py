@@ -38,6 +38,12 @@ class Credits(Widget):
     Clock.schedule_once(self.announceTheEnd, 60) # restart screensaver
 
 
+  def start(self):
+    pass
+
+  def stop(self):
+    pass
+
   def fadeIn(self, instance=False):
     self.alpha_index += ALPHA_INDEX_STEP
     

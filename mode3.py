@@ -135,7 +135,7 @@ class Discovering(Widget):
       shape.canvas.insert(0, shape.color )
 
 
-  def reset(self, instance):
+  def reset(self):
     for shape in self.shapes:
       self.remove_widget(shape.desc_box)
       shape.viewed = False
