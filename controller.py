@@ -5,17 +5,18 @@ import lib.config
 
 from mode1 import ScreenSaver
 from mode2 import Learning
-from mode3 import ZoneOfInterest
+from mode3 import Discovering
 from mode4 import Credits
 
 class Controller(Widget):
   def __init__(self, **kwargs):
     super(Controller, self).__init__(**kwargs)
     self.clientId = kwargs.pop('cid', 1)
+
     self.modes = [ScreenSaver(controller=self, modeId=1),
                   Learning(controller=self, modeId=2),
-                  ZoneOfInterest(controller=self, modeId=3),
-                  Credits(controller=sefl, modeId=4)]
+                  Discovering(controller=self, modeId=3),
+                  Credits(controller=self, modeId=4)]
 
     self.currentModeId = -1
     self.startConnection()

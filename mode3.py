@@ -30,7 +30,6 @@ class ZoneOfInterest(Widget):
     
     if kwargs.has_key("controller"):
       self.controller = kwargs.pop("controller")
-    self.modeId = kwargs.pop("modeId") 
     
     self.alpha_index = 0.0
     self.alpha_direction = 0
@@ -76,6 +75,7 @@ class Discovering(Widget):
           
     super(Discovering, self).__init__(**kwargs)
       
+    self.modeId = kwargs.pop("modeId") 
     # First item of self.shapes is the background
     bg = Image(BACKGROUND)    
     with self.canvas:
