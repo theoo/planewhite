@@ -98,6 +98,12 @@ class Discovering(Widget):
 #    Clock.schedule_interval(self.checkIfModeIsCompleted,0.5)
 
 
+  def start(self):
+    pass
+
+  def stop(self):
+    pass
+
   def checkIfModeIsCompleted(self, instance=False):
     # exits if not all shapes are viewed
     for shape in self.shapes:

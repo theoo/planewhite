@@ -45,7 +45,7 @@ class Controller(Widget):
     print "new message from server:", message
 
     if message == "reset_all":
-      #TODO cleanup systemIsWaitingForStart
+      #TODO cleanup serverIsReady hack
       self.serverIsReady = False
 
       self.stopCurrentMode()
