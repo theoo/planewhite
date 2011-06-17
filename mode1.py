@@ -32,7 +32,7 @@ class ScreenSaver(Widget):
     
     self.scan_endMessageSent = False
       
-    self.img = Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,0.5], pos=(0,0))
+    self.img = Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,0.5], pos=(0 - 218,0))
     self.add_widget(self.img)
 
 
@@ -65,7 +65,7 @@ class ScreenSaver(Widget):
     
 
   def syncServerCommunication(self, animation, target, progression):
-    if target.x >= (1024 - target.width - NETWORK_DELAY):
+    if target.x >= (Window.width - target.width - NETWORK_DELAY):
       if not self.scan_endMessageSent:
         print "Scan reached right of screen."
         self.controller.sendMessage("scan_end") # sync next client
