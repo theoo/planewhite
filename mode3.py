@@ -80,6 +80,8 @@ class Discovering(Widget):
           
     super(Discovering, self).__init__(**kwargs)
 
+    self.all_zones_of_interest_viewedMessageSent = False
+
     # First item of self.shapes is the background
     self.bg = Image(lib.config.backgrounds[self.clientIdIndex])
     with self.canvas:
@@ -108,10 +110,11 @@ class Discovering(Widget):
 
     
   def stop(self):
-    pass
+    self.reset()
 
 
   def reset(self, instance=False):
+    self.all_zones_of_interest_viewedMessageSent = False    
     for shape in self.shapes:
       self.remove_widget(shape.desc_box)
       shape.viewed = False
@@ -123,10 +126,10 @@ class Discovering(Widget):
       if not shape.viewed:
         return
     
-    self.reset()
-      
-    print "All zones of interest seens"
-    self.controller.sendMessage("all_zones_of_interest_viewed") # go to next mode
+    if not self.all_zones_of_interest_viewedMessageSent:
+      print "All zones of interest seens"
+      self.controller.sendMessage("all_zones_of_interest_viewed") # go to next mode
+      self.all_zones_of_interest_viewedMessageSent = True
 
 
   def pulse(self, dt):

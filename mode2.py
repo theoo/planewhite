@@ -33,6 +33,9 @@ class Learning(Widget):
     self.width = lib.config.viewport[self.clientIdIndex][1]
     self.background_path = lib.config.backgrounds[self.clientIdIndex]
     
+    self.threshold_reachedMessageSent = False
+
+    
     rez = lib.config.viewport[self.clientIdIndex]
     self.max_points = (MAX_POINTS * RATIO / 1024) * abs(rez[0] - rez[1])
     
@@ -46,6 +49,7 @@ class Learning(Widget):
     self.reset()
 
   def reset(self):
+    self.threshold_reachedMessageSent = False
     self.points = []
     self.canvas.clear()
 
@@ -53,10 +57,12 @@ class Learning(Widget):
 # Custom methods
   def checkIfModeIsCompleted(self):
     if len(self.points) >= self.max_points:
-      print "Max point reached with ", str(len(self.points))
-      # self.reset() # should be resetted when server send top command
-      self.controller.sendMessage("threshold_reached") # go to next mode
-
+      if not self.threshold_reachedMessageSent:
+        print "Max point reached with ", str(len(self.points))
+        # self.reset() # should be resetted when server send top command
+        self.controller.sendMessage("threshold_reached") # go to next mode
+        self.threshold_reachedMessageSent = True
+      
 
   def draw_ellipse(self, touch):
     # Use this instead of "append" if you are displaying Point cloud.

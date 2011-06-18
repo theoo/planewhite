@@ -18,6 +18,9 @@ import lib.config, lib.kwargs
 FADE_IN_SPEED = 0.01
 ALPHA_INDEX_STEP = 0.01
 
+TOUCH_DELAY = 10.0
+CREDIT_DELAY = 30.0
+SCREENSAVER_DELAY = 60.0
 
 ########################################################################
 class Credits(Widget):
@@ -27,6 +30,11 @@ class Credits(Widget):
     lib.kwargs.set_kwargs(self, **kwargs)
 
     super(Credits, self).__init__(**kwargs)  
+
+    self.credits_touchedMessageSent = False
+    self.credits_timeoutMessageSent = False
+
+    self.last_runtime = 0.0
 
     self.background_path = lib.config.backgrounds[self.clientIdIndex]
 
@@ -38,15 +46,20 @@ class Credits(Widget):
 
 # basis
   def start(self):
-    self.alpha_index = 0.0
     Clock.schedule_once(self.fadeIn, 0)
-    Clock.schedule_once(self.displayCredits, 30) # easter eggs
-    Clock.schedule_once(self.announceTheEnd, 60) # restart screensaver
+    Clock.schedule_once(self.displayCredits, CREDIT_DELAY) # easter eggs
+    Clock.schedule_once(self.announceTheEnd, SCREENSAVER_DELAY) # restart screensaver
+    self.last_runtime = Clock.get_boottime()
     
 
   def stop(self):
-    pass
+    self.reset()
 
+
+  def reset(self):
+    self.alpha_index = 0.0    
+    self.credits_touchedMessageSent = False
+    self.credits_timeoutMessageSent = False
 
 # Custom methods
   def fadeIn(self, instance=False):
@@ -66,16 +79,21 @@ class Credits(Widget):
 
 
   def announceTheEnd(self, instance=False):
-    print "This is the end."
-    self.controller.sendMessage("credits_timeout") # go back to mode1, ScreenSaver
+    if not self.credits_timeoutMessageSent:
+      print "This is the end."
+      self.controller.sendMessage("credits_timeout") # go back to mode1, ScreenSaver
+      self.credits_timeoutMessageSent = True
     
 
 # Kivy callbacks    
   def on_touch_down(self, touch):
     # Doesn't do anything if touched within the tenth first seconds.
-    if Clock.get_boottime() > 10.0:
-      print "Credits touched at, ", Clock.get_boottime()
-      self.controller.sendMessage("credits_touched") # go back to mode2, Learning 
+    if abs(Clock.get_boottime() - self.last_runtime) > TOUCH_DELAY:
+      if not self.credits_touchedMessageSent:
+        print "Credits touched at, ", Clock.get_boottime()
+        self.controller.sendMessage("credits_touched") # go back to mode2, Learning
+        self.credits_touchedMessageSent = True
+
 
 
 ########################################################################
