@@ -19,7 +19,7 @@ class Fade(Widget):
     self.background = Rectangle(size=Window.size)
     self.alpha_index_step = 0.01
     self.fade_speed = 0.01
-    self.dir = 1 # Fade IN
+    self.dir = True # Fade IN
 
     if self.dir:
       self.alpha_index = 0.0
@@ -30,9 +30,6 @@ class Fade(Widget):
     for key, value in kwargs.iteritems():
       if hasattr(self, key):
         setattr(self, key, value)
-    
-    if __name__ == '__main__':
-      self.start()
      
       
 # basis  
@@ -76,10 +73,28 @@ class Fade(Widget):
     self.canvas.clear() 
     self.canvas.add(self.color)
     self.canvas.add(self.background)    
+
+
+class CrossFade(Fade):
+  def __init__(self, **kwargs):
+    super(CrossFade, self).__init__(**kwargs)
+    
+    self.fadeIn = Fade(**kwargs)
+    self.fadeOut = Fade(dir=False, **kwargs)
+
+  def start(self):
+    self.fadeIn.start()
+    self.fadeOut.start()
+    
     
 if __name__ == '__main__':
   class FadeApp(App):
     def build(self):
-      return Fade(color=Color(0,1,0,1))
+      cf = CrossFade(color=Color(0,1,0,1))
+      cf.start()
+      root = Widget()
+      root.add_widget(cf)
+      
+      return root
     
   FadeApp().run()

@@ -75,7 +75,7 @@ class Credits(Widget):
 
 # Custom callbacks  
   def displayCredits(self, instance=False):
-    if self.clientIdIndex == 2:
+    if self.clientIdIndex == 1:
       self.add_widget(Label(text="Made with love.", font_size=50, color=(1,1,1,1), pos=Window.center))
     else:
       pass
