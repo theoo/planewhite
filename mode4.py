@@ -1,5 +1,4 @@
 # Credits
-
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.app import App
@@ -13,8 +12,9 @@ from kivy.uix.label import Label
 
 from kivy.graphics import *
 
+import lib.config, lib.kwargs
+
 # Configuration
-BACKGROUND = "images/bgs/2.jpg"
 FADE_IN_SPEED = 0.01
 ALPHA_INDEX_STEP = 0.01
 
@@ -23,15 +23,15 @@ ALPHA_INDEX_STEP = 0.01
 class Credits(Widget):
   
   def __init__(self, **kwargs):
-    
-    if kwargs.has_key("controller"):
-      self.controller = kwargs.pop("controller")
-    self.modeId = kwargs.pop("modeId") 
+
+    lib.kwargs.set_kwargs(self, **kwargs)
 
     super(Credits, self).__init__(**kwargs)  
 
+    self.background_path = lib.config.backgrounds[self.clientIdIndex]
+
     with self.canvas:
-      Image(source=BACKGROUND, size=(1024,768), color=(1,1,1,0))
+      Image(source=self.background_path, size=(1024,768), color=(1,1,1,0))
 
     self.alpha_index = 0.0
 
@@ -54,7 +54,7 @@ class Credits(Widget):
     
     self.canvas.clear()  
     with self.canvas:
-      Image(source=BACKGROUND, size=(1024,768), color=(1,1,1,self.alpha_index))
+      Image(source=self.background_path, size=(1024,768), color=(1,1,1,self.alpha_index))
     
     if self.alpha_index <= 1.0:
       Clock.schedule_once(self.fadeIn,FADE_IN_SPEED)

@@ -12,6 +12,8 @@ from kivy.uix.image import Image
 
 from kivy.graphics import *
 
+import lib.config, lib.kwargs
+
 # Configuration
 SCAN_IMG_PATH = 'images/scan.png'
 SCAN_DURATION = 1.0
@@ -22,20 +24,20 @@ NETWORK_DELAY = 0 # frames
 class ScreenSaver(Widget):
   
   def __init__(self, **kwargs):
+
+    lib.kwargs.set_kwargs(self, **kwargs)
+
     super(ScreenSaver, self).__init__(**kwargs)  
-
-    if kwargs.has_key("controller"):
-      self.controller = kwargs.pop("controller")
-
-    if kwargs.has_key("modeId"):
-      self.modeId = kwargs.pop("modeId") 
     
+    # Widget position
+    self.pos = (lib.config.viewport[self.clientIdIndex][0], 0)
+    self.width = lib.config.viewport[self.clientIdIndex][1]
+
     self.scan_endMessageSent = False
       
     self.img = Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,0.5], pos=(0 - 218,0))
     self.add_widget(self.img)
-
-
+    
 
 # basis
   def start(self):
@@ -53,11 +55,14 @@ class ScreenSaver(Widget):
 
 # Custom methods
   def scan(self, dt):
-    self.img.pos = (-self.img.width,0)
-    a1 = Animation(pos=(Window.width, 0), duration=SCAN_DURATION)
+    print self.width
+    self.img.pos = (self.pos[0] - self.img.width,0)
+    
+    a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=SCAN_DURATION)
     a1.bind(on_progress=self.syncServerCommunication)
-    a1.start(self.img)
     a1.bind(on_complete=self.onAnimComplete)
+    a1.start(self.img)
+
 
 # Custom Callbacks
   def onAnimComplete(self, animation=False, target=False):
@@ -65,7 +70,7 @@ class ScreenSaver(Widget):
     
 
   def syncServerCommunication(self, animation, target, progression):
-    if target.x >= (Window.width - target.width - NETWORK_DELAY):
+    if target.x >= (self.pos[0] + self.width - target.width - NETWORK_DELAY):
       if not self.scan_endMessageSent:
         print "Scan reached right of screen."
         self.controller.sendMessage("scan_end") # sync next client

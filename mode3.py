@@ -17,15 +17,14 @@ from kivy.core.image import Image
 from kivy.core.text import LabelBase
 from kivy.graphics import *
 
-# Configuration
-BACKGROUND = "images/bgs/2.jpg"
-CUT = ( "images/cut/2_258x574.png", (258, 768 - 574) )
+import lib.config, lib.kwargs
 
+# Configuration
 
 ########################################################################
 class ZoneOfInterest(Widget):
   
-  def __init__(self, obj=None, desc=None, pos=(0,0), **kwargs):
+  def __init__(self, obj=None, pos=(0,0), desc=None, desc_pos=(0,0), **kwargs):
     super(ZoneOfInterest, self).__init__(**kwargs)
 
     
@@ -40,30 +39,34 @@ class ZoneOfInterest(Widget):
     self.canvas.add(self.color)
     self.canvas.add(obj)
     
-    self.desc = desc
+
     self.pos = pos
     self.object = obj
     self.object.pos = self.pos
     self.viewed = False # toggled once widget is viewed
-
+    self.desc = desc
+    self.desc_pos = desc_pos
+    
     # TODO:  this extend the touch area (collision) to the size of image. 
     # If image isn't square the whole widget is touch-able.
     self.size = obj.size
     
     box_size = (450,150)
-    box_position = (self.x - 100, self.y + self.height)
-    desc_box = Label( text=self.desc, 
-                      font_size=20, 
-                      text_size=(200, None), 
-                      size=box_size,
-                      pos=box_position,
-                      color=(1,1,1,1))
-        
-    # what's in this canvas ? Inspect instruction
+    box_position = self.desc_pos
+
+    desc_box = Widget()
     
+    label = Label( text=self.desc, 
+                   font_size=20,
+                   size=box_size,
+                   pos=box_position,
+                   color=(1,1,1,1))
+        
     with desc_box.canvas:
       Color(0,0,0,0.5)
       Rectangle(size=box_size, pos=box_position)
+      
+    desc_box.add_widget(label)
 
     self.desc_box = desc_box
 
@@ -72,24 +75,25 @@ class ZoneOfInterest(Widget):
 class Discovering(Widget):
 
   def __init__(self, **kwargs):
-    if kwargs.has_key("controller"):
-      self.controller = kwargs.pop("controller")
+
+    lib.kwargs.set_kwargs(self, **kwargs)
           
     super(Discovering, self).__init__(**kwargs)
-      
-    self.modeId = kwargs.pop("modeId") 
+
     # First item of self.shapes is the background
-    bg = Image(BACKGROUND)    
+    self.bg = Image(lib.config.backgrounds[self.clientIdIndex])
     with self.canvas:
-      Rectangle(texture=bg.texture, size=bg.size, pos=(0,0))
+      Rectangle(texture=self.bg.texture, size=self.bg.size, pos=(0,0))
 
     # zones of interest
     self.shapes = []
-
-    img = Image(CUT[0])
-    self.shapes.append( ZoneOfInterest( Rectangle(texture=img.texture, size=img.size),
-                                        "This is a wonderful demonstration\n of ten words for carina's sake.",
-                                        CUT[1] ) )
+    
+    for zi in lib.config.zones_of_interest[self.clientIdIndex]:
+      img = Image(zi[0])
+      self.shapes.append( ZoneOfInterest( obj=Rectangle(texture=img.texture, size=img.size),
+                                          pos=zi[1],
+                                          desc=zi[2],
+                                          desc_pos=zi[3]) )
 
     Clock.schedule_interval(self.pulse, 0.1)
     
@@ -107,7 +111,7 @@ class Discovering(Widget):
     pass
 
 
-  def reset(self, instance):
+  def reset(self, instance=False):
     for shape in self.shapes:
       self.remove_widget(shape.desc_box)
       shape.viewed = False

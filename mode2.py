@@ -13,42 +13,48 @@ from kivy.uix.image import Image
 
 from kivy.graphics import *
 
-# Configuration
-MAX_POINTS = 250
-BACKGROUND = "images/bgs/2.jpg"
+import lib.config, lib.kwargs
 
+# Configuration
+MAX_POINTS = 300 # max points to discover the background
+RATIO = 0.8 # ratio of theses points to reach the next mode
 
 ########################################################################
 class Learning(Widget):
   
   def __init__(self, **kwargs):
-    if kwargs.has_key("controller"):
-      self.controller = kwargs.pop("controller")
 
+    lib.kwargs.set_kwargs(self, **kwargs)
+    
     super(Learning, self).__init__(**kwargs)  
-
-    self.modeId = kwargs.pop("modeId") 
-    self.img = Image(source=BACKGROUND, size=(1024,768), color=[1,1,1,0.5], pos=(0,0))  
-    self.points = []
+          
+    # Widget position
+    self.pos = (lib.config.viewport[self.clientIdIndex][0], 0)
+    self.width = lib.config.viewport[self.clientIdIndex][1]
+    self.background_path = lib.config.backgrounds[self.clientIdIndex]
+    
+    rez = lib.config.viewport[self.clientIdIndex]
+    self.max_points = (MAX_POINTS * RATIO / 1024) * abs(rez[0] - rez[1])
+    
+    self.reset()
 
 # basis
   def start(self):
     pass
-
     
   def stop(self):
-    pass
-    
+    self.reset()
 
   def reset(self):
     self.points = []
+    self.canvas.clear()
 
 
 # Custom methods
   def checkIfModeIsCompleted(self):
-    if len(self.points) >= MAX_POINTS:
+    if len(self.points) >= self.max_points:
       print "Max point reached with ", str(len(self.points))
-      self.reset()
+      # self.reset() # should be resetted when server send top command
       self.controller.sendMessage("threshold_reached") # go to next mode
 
 
@@ -73,7 +79,7 @@ class Learning(Widget):
         Ellipse(pos=(pos[0] - diameter / 2, pos[1] - diameter / 2), size=(diameter, diameter))
       
       StencilUse()
-      Image(source=BACKGROUND, size=(1024,768), color=[1,1,1,1], pos=(0,0))
+      Image(source=self.background_path, size=(1024,768), color=[1,1,1,1], pos=(0,0))
       
       StencilPop()  
       

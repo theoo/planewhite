@@ -104,7 +104,6 @@ class Controller(Widget):
     self.currentMode = self.modes[self.currentModeId - 1]  
 
 
-
   # connection stuff
   #
   def connectionListen(self, dt):
