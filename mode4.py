@@ -75,7 +75,10 @@ class Credits(Widget):
 
 # Custom callbacks  
   def displayCredits(self, instance=False):
-    self.add_widget(Label(text="Credits", font_size=20, color=(1,1,1,1)))
+    if self.clientIdIndex == 2:
+      self.add_widget(Label(text="Made with love.", font_size=50, color=(1,1,1,1), pos=Window.center))
+    else:
+      pass
 
 
   def announceTheEnd(self, instance=False):
