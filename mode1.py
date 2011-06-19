@@ -54,7 +54,7 @@ class ScreenSaver(Widget):
     self.scan_endMessageSent = False
     self.screensaver_touchedMessageSent = False
       
-    self.img = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,0.5], pos=(0 - 218,0))
+    self.img = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,1], pos=(0 - 218,0))
     self.add_widget(self.img)
     
     # cartel
