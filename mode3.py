@@ -56,10 +56,12 @@ class Discovering(Widget):
 
 # basis
   def start(self):
+    print "Discovering start() called"
     pass
 
     
   def stop(self):
+    print "Discovering stop() called"    
     self.reset()
 
 

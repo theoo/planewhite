@@ -67,14 +67,15 @@ class ScreenSaver(Widget):
 
 
   def stop(self):
-    print "ScreenSaver start() called"
+    print "ScreenSaver stop() called"
     self.reset()
         
     
   def reset(self):
     self.screensaver_touchedMessageSent = False    
     self.points = []
-
+    self.canvas.clear()
+    
 
 # Custom methods
   def scan(self, dt):

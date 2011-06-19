@@ -28,24 +28,6 @@ class Controller(Widget):
     self.startConnection()
     self.serverIsReady = False
 
-#    transition = Fade(dir=0, color=Color(0,0,0,1), fade_speed=0.1)
-#    self.add_widget(transition)
-#    self.add_widget(self.modes[0])
-#    transition.start()
-
-
-  def sendMessage(self, message):
-    print "Sending message ", message
-    self.connection.sendMessage(message)
-
-
-  def stopCurrentMode(self):
-    if self.currentModeId == -1:
-      return
-
-    self.currentMode.stop()
-    self.remove_widget(self.currentMode)
-
 
   # messages from server arrive here
   #
@@ -98,6 +80,19 @@ class Controller(Widget):
     else:
       print "message is not recognized:", message
 
+
+  def sendMessage(self, message):
+    print "Sending message ", message
+    self.connection.sendMessage(message)
+
+
+  def stopCurrentMode(self):
+    if self.currentModeId == -1:
+      return
+
+    self.currentMode.stop()
+    self.remove_widget(self.currentMode)
+    
 
   def updateCurrentMode(self):
     # TODO: check over/under flows

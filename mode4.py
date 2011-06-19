@@ -46,6 +46,7 @@ class Credits(Widget):
 
 # basis
   def start(self):
+    print "Credits start() called"    
     Clock.schedule_once(self.fadeIn, 0)
     if self.clientIdIndex == 2:
       Clock.schedule_once(self.displayCredits, CREDIT_DELAY) # easter eggs
@@ -55,6 +56,7 @@ class Credits(Widget):
     
 
   def stop(self):
+    print "Credits stop() called"    
     self.reset()
 
 

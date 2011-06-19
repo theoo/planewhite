@@ -43,9 +43,11 @@ class Learning(Widget):
 
 # basis
   def start(self):
+    print "Learning start() called"
     pass
     
   def stop(self):
+    print "Learning stop() called"    
     self.reset()
 
   def reset(self):
