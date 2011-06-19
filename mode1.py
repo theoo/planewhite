@@ -22,7 +22,7 @@ import lib.config, lib.kwargs
 SCAN_IMG_PATH = 'images/scan.png'
 SCAN_DURATION = 2.0
 NETWORK_DELAY = 0 # frames
-TRIGGER_POINTS_THRESHOLD = 200
+TRIGGER_POINTS_THRESHOLD = 300
 
 
 ########################################################################
