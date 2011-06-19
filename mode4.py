@@ -58,7 +58,7 @@ class Credits(Widget):
   def stop(self):
     print "Credits stop() called"    
     self.reset()
-    Clock.unschedule(self.fadeIne)
+    Clock.unschedule(self.fadeIn)
     Clock.unschedule(self.displayCredits)
     Clock.unschedule(self.announceTheEnd)
 
