@@ -58,6 +58,7 @@ class ScreenSaver(Widget):
     self.add_widget(self.img)
     
     # cartel
+    print self.controller.clientId
     if self.controller.clientId == 1:
       self.cartel = Label(text="PlaneWhite", pos=(600,650), font_size=40, color=(1,1,1,1))
       self.touch_me = Label(text="try me if you dare!", pos=(575,600), font_size=20, color=(1,1,1,1))
