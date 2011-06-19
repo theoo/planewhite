@@ -1,6 +1,6 @@
 
 # server config
-host = "192.168.0.76"
+host = "10.0.0.1"
 port = 4000
 
 # client config
