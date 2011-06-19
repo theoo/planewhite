@@ -60,18 +60,19 @@ class ScreenSaver(Widget):
 
 # basis
   def start(self):
-    print self.scan_endMessageSent
-    print "start called on ScreenSaver"
+    # start is called on each scan, not only when changin mode.
+    print "ScreenSaver start() called"
+    self.scan_endMessageSent = False
     Clock.schedule_once(self.scan, 0)
 
 
   def stop(self):
-    self.scan_endMessageSent = False
-    self.screensaver_touchedMessageSent = False
+    print "ScreenSaver start() called"
     self.reset()
         
     
   def reset(self):
+    self.screensaver_touchedMessageSent = False    
     self.points = []
 
 
@@ -143,7 +144,7 @@ class ScreenSaver(Widget):
 
   def on_touch_up(self, touch):
     if len(self.trigger_points) > TRIGGER_POINTS_THRESHOLD:
-      if not self.scan_endMessageSent:
+      if not self.screensaver_touchedMessageSent:
         print "Screensaver touched. ", len(self.trigger_points)
         self.controller.sendMessage("screensaver_touched") # go to next mode
         self.screensaver_touchedMessageSent = True
