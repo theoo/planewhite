@@ -17,7 +17,7 @@ from kivy.core.image import Image
 from kivy.core.text import LabelBase
 from kivy.graphics import *
 
-import lib.config, lib.kwargs
+import lib.config, lib.kwargs, lib.utils
 
 # Configuration
 
