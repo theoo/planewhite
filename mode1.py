@@ -21,7 +21,7 @@ import lib.config, lib.kwargs
 SCAN_IMG_PATH = 'images/scan.png'
 SCAN_DURATION = 2.0
 NETWORK_DELAY = 0 # frames
-TRIGGER_POINTS_THRESHOLD = 50
+TRIGGER_POINTS_THRESHOLD = 100
 
 
 ########################################################################
@@ -75,6 +75,7 @@ class ScreenSaver(Widget):
   def reset(self):
     self.screensaver_touchedMessageSent = False    
     self.points = []
+    self.trigger_points = []
 
     self.remove_widget(self.img)    
     self.canvas.clear()
