@@ -57,6 +57,7 @@ class Discovering(Widget):
 # basis
   def start(self):
     print "Discovering start() called"
+    Clock.schedule_once(self.checkIfModeIsCompleted, 1)
     pass
 
     
@@ -141,7 +142,7 @@ if __name__ == '__main__':
       
       discovering = Discovering()
       base.add_widget(discovering)
-    
+      discovering.start()
 #      clearbtn = Button(text="clear", font_size=14)
 #      clearbtn.bind(on_release=discovering.clear)
 #      base.add_widget(clearbtn)
