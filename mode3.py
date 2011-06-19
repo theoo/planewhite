@@ -65,6 +65,7 @@ class Discovering(Widget):
     print "Discovering stop() called"    
     self.reset()
     Clock.unschedule(self.pulse)
+    Clock.unschedule(self.checkIfModeIsCompleted)
 
 
   def reset(self, instance=False):
