@@ -75,7 +75,7 @@ class ScreenSaver(Widget):
   def reset(self):
     self.screensaver_touchedMessageSent = False    
     self.points = []
-    self.canvas.clear()
+#    self.canvas.clear()
     
 
 # Custom methods
