@@ -58,10 +58,10 @@ class ScreenSaver(Widget):
     self.add_widget(self.img)
     
     # cartel
-    self.cartel = Label(text="PlaneWhite", pos=(600,650), font_size=60, color=(1,1,1,1), halign="right")
-    self.touch_me = Label(text="by Carina Ow uber star", pos=(600,600), font_size=20, color=(1,1,1,1), halign="right")
-    self.add_widget(self.cartel)
-    self.add_widget(self.touch_me)
+#    self.cartel = Label(text="PlaneWhite", pos=(600,650), font_size=60, color=(1,1,1,1), halign="right")
+#    self.touch_me = Label(text="by Carina Ow uber star", pos=(600,600), font_size=20, color=(1,1,1,1), halign="right")
+#    self.add_widget(self.cartel)
+#    self.add_widget(self.touch_me)
     
 
 # basis
