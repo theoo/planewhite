@@ -4,7 +4,6 @@ from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.app import App
 
-from kivy.clock import Clock
 from kivy.animation import Animation
 
 from kivy.uix.boxlayout import BoxLayout
@@ -46,9 +45,11 @@ class Learning(Widget):
     print "Learning start() called"
     pass
     
+    
   def stop(self):
     print "Learning stop() called"    
     self.reset()
+    
 
   def reset(self):
     self.threshold_reachedMessageSent = False

@@ -18,9 +18,9 @@ import lib.config, lib.kwargs
 FADE_IN_SPEED = 0.01
 ALPHA_INDEX_STEP = 0.01
 
-TOUCH_DELAY = 10.0
-CREDIT_DELAY = 30.0
-SCREENSAVER_DELAY = 60.0
+TOUCH_DELAY = 2.0
+CREDIT_DELAY = 5.0
+SCREENSAVER_DELAY = 10.0
 
 ########################################################################
 class Credits(Widget):
@@ -58,6 +58,9 @@ class Credits(Widget):
   def stop(self):
     print "Credits stop() called"    
     self.reset()
+    Clock.unschedule(self.fadeIne)
+    Clock.unschedule(self.displayCredits)
+    Clock.unschedule(self.announceTheEnd)
 
 
   def reset(self):

@@ -69,7 +69,8 @@ class ScreenSaver(Widget):
   def stop(self):
     print "ScreenSaver stop() called"
     self.reset()
-        
+    Clock.unschedule(self.scan)
+    
     
   def reset(self):
     self.screensaver_touchedMessageSent = False    

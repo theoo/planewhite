@@ -63,6 +63,7 @@ class Discovering(Widget):
   def stop(self):
     print "Discovering stop() called"    
     self.reset()
+    Clock.unschedule(self.pulse)
 
 
   def reset(self, instance=False):
@@ -125,7 +126,6 @@ class Discovering(Widget):
       if shape.collide_point(*touch.pos):
         if self.children.count(shape.desc_box) < 1:
           # displays text box
-          # TODO: Clock.unschedule()
           self.add_widget(shape.desc_box)
           shape.viewed = True
 
