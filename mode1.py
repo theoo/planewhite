@@ -143,7 +143,7 @@ class ScreenSaver(Widget):
 
   def on_touch_up(self, touch):
     if len(self.trigger_points) > TRIGGER_POINTS_THRESHOLD:
-      if not self.scan_endMessageSent
+      if not self.scan_endMessageSent:
         print "Screensaver touched. ", len(self.trigger_points)
         self.controller.sendMessage("screensaver_touched") # go to next mode
         self.screensaver_touchedMessageSent = True
