@@ -51,6 +51,7 @@ class ScreenSaver(Widget):
 
     # Scaner
     self.scan_endMessageSent = False
+    self.screensaver_touchedMessageSent = False
       
     self.img = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,0.5], pos=(0 - 218,0))
     self.add_widget(self.img)
@@ -59,12 +60,14 @@ class ScreenSaver(Widget):
 
 # basis
   def start(self):
+    print self.scan_endMessageSent
     print "start called on ScreenSaver"
     Clock.schedule_once(self.scan, 0)
 
 
   def stop(self):
     self.scan_endMessageSent = False
+    self.screensaver_touchedMessageSent = False
     self.reset()
         
     
@@ -140,8 +143,11 @@ class ScreenSaver(Widget):
 
   def on_touch_up(self, touch):
     if len(self.trigger_points) > TRIGGER_POINTS_THRESHOLD:
-      print "Screensaver touched. ", len(self.trigger_points)
-      #self.controller.sendMessage("screensaver_touched") # go to next mode
+      if not self.scan_endMessageSent
+        print "Screensaver touched. ", len(self.trigger_points)
+        self.controller.sendMessage("screensaver_touched") # go to next mode
+        self.screensaver_touchedMessageSent = True
+
 
 
 ########################################################################      
