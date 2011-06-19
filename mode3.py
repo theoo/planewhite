@@ -22,56 +22,6 @@ import lib.config, lib.kwargs
 # Configuration
 
 ########################################################################
-class ZoneOfInterest(Widget):
-  
-  def __init__(self, obj=None, pos=(0,0), desc=None, desc_pos=(0,0), **kwargs):
-    super(ZoneOfInterest, self).__init__(**kwargs)
-
-    
-    if kwargs.has_key("controller"):
-      self.controller = kwargs.pop("controller")
-    
-    self.alpha_index = 0.0
-    self.alpha_direction = 0
-
-    # I store the color to be able to remove it from canvas afterwards.
-    self.color = Color(1,1,1,self.alpha_index) 
-    self.canvas.add(self.color)
-    self.canvas.add(obj)
-    
-
-    self.pos = pos
-    self.object = obj
-    self.object.pos = self.pos
-    self.viewed = False # toggled once widget is viewed
-    self.desc = desc
-    self.desc_pos = desc_pos
-    
-    # TODO:  this extend the touch area (collision) to the size of image. 
-    # If image isn't square the whole widget is touch-able.
-    self.size = obj.size
-    
-    box_size = (450,150)
-    box_position = self.desc_pos
-
-    desc_box = Widget()
-    
-    label = Label( text=self.desc, 
-                   font_size=20,
-                   size=box_size,
-                   pos=box_position,
-                   color=(1,1,1,1))
-        
-    with desc_box.canvas:
-      Color(0,0,0,0.5)
-      Rectangle(size=box_size, pos=box_position)
-      
-    desc_box.add_widget(label)
-
-    self.desc_box = desc_box
-
-
-########################################################################
 class Discovering(Widget):
 
   def __init__(self, **kwargs):
@@ -91,8 +41,7 @@ class Discovering(Widget):
     self.shapes = []
     
     for zi in lib.config.zones_of_interest[self.clientIdIndex]:
-      img = Image(zi[0])
-      self.shapes.append( ZoneOfInterest( obj=Rectangle(texture=img.texture, size=img.size),
+      self.shapes.append( ZoneOfInterest( img=Image(zi[0]),
                                           pos=zi[1],
                                           desc=zi[2],
                                           desc_pos=zi[3]) )

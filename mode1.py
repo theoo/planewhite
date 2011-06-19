@@ -8,16 +8,20 @@ from kivy.clock import Clock
 from kivy.animation import Animation
 
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.image import Image
+
+import kivy.core.image
+import kivy.uix.image
 
 from kivy.graphics import *
 
+from lib.utils import ZoneOfInterest
 import lib.config, lib.kwargs
 
 # Configuration
 SCAN_IMG_PATH = 'images/scan.png'
-SCAN_DURATION = 1.0
+SCAN_DURATION = 2.0
 NETWORK_DELAY = 0 # frames
+TRIGGER_POINTS_THRESHOLD = 50
 
 
 ########################################################################
@@ -29,14 +33,28 @@ class ScreenSaver(Widget):
 
     super(ScreenSaver, self).__init__(**kwargs)  
     
-    # Widget position
     self.pos = (lib.config.viewport[self.clientIdIndex][0], 0)
-    self.width = lib.config.viewport[self.clientIdIndex][1]
+    self.width = abs(lib.config.viewport[self.clientIdIndex][0] - lib.config.viewport[self.clientIdIndex][1])
 
+    self.scan_duration = SCAN_DURATION / Window.width * (self.width)
+
+    self.points = []
+    self.trigger_points = []
+    
+    # ZoneOfInterest
+    self.shapes = []
+    
+    for zi in lib.config.zones_of_interest[self.clientIdIndex]:
+      self.shapes.append( ZoneOfInterest( img=kivy.core.image.Image(zi[0]),
+                                          pos=zi[1],
+                                          alpha_index=1.0) )
+
+    # Scaner
     self.scan_endMessageSent = False
       
-    self.img = Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,0.5], pos=(0 - 218,0))
+    self.img = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,0.5], pos=(0 - 218,0))
     self.add_widget(self.img)
+
     
 
 # basis
@@ -46,28 +64,60 @@ class ScreenSaver(Widget):
 
 
   def stop(self):
+    self.scan_endMessageSent = False
     self.reset()
-    
+        
     
   def reset(self):
-    self.scan_endMessageSent = False
+    self.points = []
 
 
 # Custom methods
   def scan(self, dt):
-    print self.width
     self.img.pos = (self.pos[0] - self.img.width,0)
     
-    a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=SCAN_DURATION)
+    a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
     a1.bind(on_progress=self.syncServerCommunication)
-    a1.bind(on_complete=self.onAnimComplete)
+#    a1.bind(on_complete=self.onAnimComplete)
     a1.start(self.img)
+
+
+  def draw_ellipse(self, touch):
+    # Use this instead of "append" if you are displaying Point cloud.
+    # self.points += touch.pos
+    self.points.append(touch.pos)
+
+    self.remove_widget(self.img)
+
+    self.canvas.clear()
+       
+    with self.canvas:
+      StencilPush()
+      
+      for pos in self.points:
+        diameter = 100
+        Ellipse(pos=(pos[0] - diameter / 2, pos[1] - diameter / 2), size=(diameter, diameter))
+      
+      StencilUse()      
+      for shape in self.shapes:
+        shape.object
+        Rectangle(texture=shape.img.texture, size=shape.img.size, pos=shape.pos)
+      
+      StencilPop()
+
+    self.add_widget(self.img)
+
+
+  def add_trigger_point(self, touch):
+    for shape in self.shapes:
+      if shape.collide_point(*touch.pos):
+        self.trigger_points.append(touch.pos)
 
 
 # Custom Callbacks
   def onAnimComplete(self, animation=False, target=False):
-    self.reset()
-    
+    Clock.schedule_once(self.scan, 0)
+
 
   def syncServerCommunication(self, animation, target, progression):
     if target.x >= (self.pos[0] + self.width - target.width - NETWORK_DELAY):
@@ -79,8 +129,19 @@ class ScreenSaver(Widget):
 
 # Kivy Callbacks
   def on_touch_down(self, touch):
-    print "Screensaver touched."
-    self.controller.sendMessage("screensaver_touched") # go to next mode
+    self.draw_ellipse(touch)
+    self.add_trigger_point(touch)
+
+
+  def on_touch_move(self, touch):
+    self.draw_ellipse(touch)
+    self.add_trigger_point(touch)    
+
+
+  def on_touch_up(self, touch):
+    if len(self.trigger_points) > TRIGGER_POINTS_THRESHOLD:
+      print "Screensaver touched. ", len(self.trigger_points)
+      #self.controller.sendMessage("screensaver_touched") # go to next mode
 
 
 ########################################################################      
