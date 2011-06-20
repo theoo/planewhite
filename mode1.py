@@ -162,8 +162,8 @@ class ScreenSaver(Widget):
     if len(self.trigger_points) > TRIGGER_POINTS_THRESHOLD:
       if not self.screensaver_touchedMessageSent:
         print "Screensaver touched. ", len(self.trigger_points)
-#        self.points = []
-#        self.draw_ellipse()
+        self.points = []
+        self.draw_ellipse()
         
         for shape in self.shapes:
           shape.alpha = 0.0
