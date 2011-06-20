@@ -17,7 +17,7 @@ from kivy.core.image import Image
 from kivy.core.text import LabelBase
 from kivy.graphics import *
 
-from lib.utils import ZoneOfInterest
+from lib.utils import ZoneOfInterest, AlphaWidget
 import lib.config, lib.kwargs
 
 # Configuration
@@ -34,10 +34,13 @@ class Discovering(Widget):
     self.all_zones_of_interest_viewedMessageSent = False
 
     # First item of self.shapes is the background
-    self.bg = Image(lib.config.backgrounds[self.clientIdIndex])
-    with self.canvas:
-      Rectangle(texture=self.bg.texture, size=self.bg.size, pos=(0,0))
-
+    self.bg_img = Image(lib.config.backgrounds[self.clientIdIndex])
+    self.bg = AlphaWidget()
+    with self.bg.canvas:
+      Rectangle(texture=self.bg_img.texture, size=self.bg_img.size, pos=(0,0))
+      
+    self.add_widget(self.bg)
+    
     # zones of interest
     self.shapes = []
     
@@ -59,7 +62,8 @@ class Discovering(Widget):
   def start(self):
     print "Discovering start() called"
     Clock.schedule_once(self.checkIfModeIsCompleted, 1)
-    pass
+    self.bg.alpha = 0.0
+    self.bg.fadeIn()
 
     
   def stop(self):
