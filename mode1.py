@@ -101,6 +101,9 @@ class ScreenSaver(Widget):
     self.points = []
     self.trigger_points = []
 
+    for shape in self.shapes:
+      self.remove_widget(shape)    
+
     self.remove_widget(self.scanner)    
     self.canvas.clear()
     self.add_widget(self.scanner)
