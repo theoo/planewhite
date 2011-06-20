@@ -170,7 +170,7 @@ class ScreenSaver(Widget):
           shape.fadeIn()
           self.add_widget(shape)
         
-        Clock.schedule_once(self.sendScreenSaverTouched, 2)
+        Clock.schedule_once(self.sendScreenSaverTouched, 5)
         self.screensaver_touchedMessageSent = True
 
 
