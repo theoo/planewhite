@@ -43,7 +43,7 @@ class Controller(Widget):
       self.serverIsReady = True
 
       self.stopCurrentMode()
-      self.currentModeId = 4
+      self.currentModeId = 1
       self.updateCurrentMode()
       self.add_widget(self.currentMode)
       # only start if we are numero uno
@@ -52,6 +52,8 @@ class Controller(Widget):
 
     elif message == "scan_start":
       if self.serverIsReady:
+        self.currentModeId = 4
+        self.updateCurrentMode()
         self.currentMode.start()
 
     elif message == "scan_fadein":
