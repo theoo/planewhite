@@ -97,13 +97,10 @@ class ZoneOfInterest(AlphaWidget):
     
     label = Label( text=self.desc, 
                    font_size=20,
+                   font_name="fonts/Akkurat.ttf",
                    size=box_size,
                    pos=box_position,
-                   color=(1,1,1,1))
-        
-    with desc_box.canvas:
-      Color(0,0,0,0.5)
-      Rectangle(size=box_size, pos=box_position)
+                   color=(0,0,0,1))
       
     desc_box.add_widget(label)
 
