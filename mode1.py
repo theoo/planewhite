@@ -79,7 +79,7 @@ class ScreenSaver(Widget):
 
 
   def fadein(self):
-    self.remove_widget(self.img)
+    self.remove_widget(self.scanner)
     print "ScreenSaver fadeIn() called"
     self.points = []
     self.draw_ellipse()
