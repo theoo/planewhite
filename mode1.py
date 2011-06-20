@@ -69,8 +69,7 @@ class ScreenSaver(Widget):
     # start is called on each scan, not only when changin mode.
     print "ScreenSaver start() called"
     self.scan_endMessageSent = False
-    if len(self.trigger_points) < TRIGGER_POINTS_THRESHOLD:
-      Clock.schedule_once(self.scan, 0)
+    Clock.schedule_once(self.scan, 0)
 
 
   def stop(self):
@@ -151,8 +150,9 @@ class ScreenSaver(Widget):
     if target.x >= (self.pos[0] + self.width - target.width - NETWORK_DELAY):
       if not self.scan_endMessageSent:
         print "Scan reached right of screen."
-        self.controller.sendMessage("scan_end") # sync next client
-        self.scan_endMessageSent = True
+        if not self.screensaver_touchedMessageSent:
+          self.controller.sendMessage("scan_end") # sync next client
+          self.scan_endMessageSent = True
 
 
 # Kivy Callbacks
