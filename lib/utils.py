@@ -96,7 +96,7 @@ class ZoneOfInterest(AlphaWidget):
     desc_box = Widget()
     
     label = Label( text=self.desc, 
-                   font_size=20,
+                   font_size=15,
                    font_name="fonts/Akkurat.ttf",
                    size=box_size,
                    pos=box_position,
