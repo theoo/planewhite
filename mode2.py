@@ -139,8 +139,9 @@ if __name__ == '__main__':
   class LearningApp(App):
     def build(self):      
       base = Widget()
-      base.add_widget(Learning())
-      
+      learn = Learning()
+      base.add_widget(learn)
+      learn.start()
       return base
 
   LearningApp().run()
