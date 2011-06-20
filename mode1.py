@@ -159,6 +159,9 @@ class ScreenSaver(Widget):
           print "Scan reached right of screen."
           self.controller.sendMessage("scan_end") # sync next client
           self.scan_endMessageSent = True
+        else:
+          Clock.unschedule(self.scan)
+          self.remove_widget(self.scanner)
 
 
 # Kivy Callbacks
