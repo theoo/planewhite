@@ -69,7 +69,8 @@ class ScreenSaver(Widget):
     # start is called on each scan, not only when changin mode.
     print "ScreenSaver start() called"
     self.scan_endMessageSent = False
-    Clock.schedule_once(self.scan, 0)
+    if len(self.trigger_points) < TRIGGER_POINTS_THRESHOLD:
+      Clock.schedule_once(self.scan, 0)
 
 
   def stop(self):
@@ -79,10 +80,6 @@ class ScreenSaver(Widget):
 
 
   def fadein(self):
-    Clock.unschedule(self.scan)
-    self.scanner.pos = (0,0)
-    self.remove_widget(self.scanner)
-    
     print "ScreenSaver fadeIn() called"
     self.points = []
     self.draw_ellipse()
