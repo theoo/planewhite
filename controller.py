@@ -5,8 +5,6 @@ from kivy.graphics import *
 from lib.connectionToServer import Client
 import lib.config
 
-from lib.transitions import Fade
-
 from mode1 import ScreenSaver
 from mode2 import Learning
 from mode3 import Discovering
