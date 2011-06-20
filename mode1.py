@@ -22,7 +22,7 @@ import lib.config, lib.kwargs
 SCAN_IMG_PATH = 'images/scan.png'
 SCAN_DURATION = 1.5
 NETWORK_DELAY = 0 # frames
-TRIGGER_POINTS_THRESHOLD = 300
+TRIGGER_POINTS_THRESHOLD = 100
 
 
 ########################################################################
@@ -54,8 +54,8 @@ class ScreenSaver(Widget):
     self.scan_endMessageSent = False
     self.screensaver_touchedMessageSent = False
       
-    self.img = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,1], pos=(0 - 218,0))
-    self.add_widget(self.img)
+    self.scanner = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,1], pos=(0 - 218,0))
+    self.add_widget(self.scanner)
     
     # cartel
 #    self.cartel = Label(text="PlaneWhite", pos=(600,650), font_size=60, color=(1,1,1,1), halign="right")
@@ -83,27 +83,23 @@ class ScreenSaver(Widget):
     self.points = []
     self.trigger_points = []
 
-    self.remove_widget(self.img)    
+    self.remove_widget(self.scanner)    
     self.canvas.clear()
-    self.add_widget(self.img)
+    self.add_widget(self.scanner)
     
 
 # Custom methods
   def scan(self, dt):
-    self.img.pos = (self.pos[0] - self.img.width,0)
+    self.scanner.pos = (self.pos[0] - self.scanner.width,0)
     
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
     a1.bind(on_progress=self.syncServerCommunication)
 #    a1.bind(on_complete=self.onAnimComplete)
-    a1.start(self.img)
+    a1.start(self.scanner)
 
 
-  def draw_ellipse(self, touch):
-    # Use this instead of "append" if you are displaying Point cloud.
-    # self.points += touch.pos
-    self.points.append(touch.pos)
-
-    self.remove_widget(self.img)
+  def draw_ellipse(self):
+    self.remove_widget(self.scanner)
 
     self.canvas.clear()
        
@@ -121,7 +117,7 @@ class ScreenSaver(Widget):
       
       StencilPop()
 
-    self.add_widget(self.img)
+    self.add_widget(self.scanner)
 
 
   def add_trigger_point(self, touch):
@@ -145,13 +141,17 @@ class ScreenSaver(Widget):
 
 # Kivy Callbacks
   def on_touch_down(self, touch):
-    self.draw_ellipse(touch)
-    self.add_trigger_point(touch)
+    if not self.screensaver_touchedMessageSent:
+      self.points.append(touch.pos)
+      self.draw_ellipse()
+      self.add_trigger_point(touch)
 
 
   def on_touch_move(self, touch):
-    self.draw_ellipse(touch)
-    self.add_trigger_point(touch)    
+    if not self.screensaver_touchedMessageSent:
+      self.points.append(touch.pos)
+      self.draw_ellipse()
+      self.add_trigger_point(touch)    
 
 
   def on_touch_up(self, touch):
@@ -159,6 +159,15 @@ class ScreenSaver(Widget):
       if not self.screensaver_touchedMessageSent:
         print "Screensaver touched. ", len(self.trigger_points)
         self.controller.sendMessage("screensaver_touched") # go to next mode
+
+#        self.points = []
+#        self.draw_ellipse()
+        
+        for shape in self.shapes:
+          shape.alpha = 0.0
+          shape.fadeIn()
+          self.add_widget(shape)
+
         self.screensaver_touchedMessageSent = True
 
 
