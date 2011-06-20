@@ -50,8 +50,6 @@ class Learning(Widget):
     rez = lib.config.viewport[self.clientIdIndex]
     self.max_points = (MAX_POINTS * RATIO / 1024) * abs(rez[0] - rez[1])
 
-    self.add_shapes()
-
 
 # basis
   def start(self):
