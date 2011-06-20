@@ -56,6 +56,7 @@ class Learning(Widget):
 # basis
   def start(self):
     print "Learning start() called"
+    self.add_shapes()
     
     
   def stop(self):
