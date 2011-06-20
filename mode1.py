@@ -153,7 +153,7 @@ class ScreenSaver(Widget):
     if target.x >= (self.pos[0] + self.width - target.width - NETWORK_DELAY):
       if not self.scan_endMessageSent:
         print "Scan reached right of screen."
-        if self.fadeInMessageReceived:
+        if not self.fadeInMessageReceived:
           self.controller.sendMessage("scan_end") # sync next client
           self.scan_endMessageSent = True
 
