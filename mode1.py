@@ -22,7 +22,7 @@ import lib.config, lib.kwargs
 SCAN_IMG_PATH = 'images/scan.png'
 SCAN_DURATION = 1.5
 NETWORK_DELAY = 0 # frames
-TRIGGER_POINTS_THRESHOLD = 50
+TRIGGER_POINTS_THRESHOLD = 150
 
 
 ########################################################################
@@ -79,6 +79,7 @@ class ScreenSaver(Widget):
 
 
   def fadein(self):
+    self.remove_widget(self.img)
     print "ScreenSaver fadeIn() called"
     self.points = []
     self.draw_ellipse()
