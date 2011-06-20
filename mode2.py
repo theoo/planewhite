@@ -49,7 +49,15 @@ class Learning(Widget):
   def stop(self):
     print "Learning stop() called"    
     self.reset()
-    
+
+
+  def fadein(self):
+    pass
+
+
+  def fadeout(self):
+    pass    
+        
 
   def reset(self):
     self.threshold_reachedMessageSent = False

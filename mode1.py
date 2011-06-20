@@ -76,7 +76,21 @@ class ScreenSaver(Widget):
     print "ScreenSaver stop() called"
     self.reset()
     Clock.unschedule(self.scan)
+
+
+  def fadein(self):
+    self.points = []
+    self.draw_ellipse()
     
+    for shape in self.shapes:
+      shape.alpha = 0.0
+      shape.fadeIn()
+      self.add_widget(shape)
+      
+
+  def fadeout(self):
+    pass    
+
     
   def reset(self):
     self.screensaver_touchedMessageSent = False    
@@ -138,10 +152,6 @@ class ScreenSaver(Widget):
         self.controller.sendMessage("scan_end") # sync next client
         self.scan_endMessageSent = True
 
-  def sendScreenSaverTouched(self, dt):
-    self.controller.sendMessage("screensaver_touched") # go to next mode
-
-
 
 # Kivy Callbacks
   def on_touch_down(self, touch):
@@ -162,15 +172,8 @@ class ScreenSaver(Widget):
     if len(self.trigger_points) > TRIGGER_POINTS_THRESHOLD:
       if not self.screensaver_touchedMessageSent:
         print "Screensaver touched. ", len(self.trigger_points)
-        self.points = []
-        self.draw_ellipse()
         
-        for shape in self.shapes:
-          shape.alpha = 0.0
-          shape.fadeIn()
-          self.add_widget(shape)
-        
-        Clock.schedule_once(self.sendScreenSaverTouched, 5)
+        self.controller.sendMessage("screensaver_touched") # go to next mode
         self.screensaver_touchedMessageSent = True
 
 

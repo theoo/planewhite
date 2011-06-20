@@ -53,6 +53,10 @@ class Controller(Widget):
     elif message == "scan_start":
       if self.serverIsReady:
         self.currentMode.start()
+
+    elif message == "scan_fadein":
+      if self.serverIsReady:
+        self.currentMode.fadein()
    
     elif message == "change_mode/2":        # mode 2 messages
       self.stopCurrentMode()

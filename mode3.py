@@ -69,6 +69,14 @@ class Discovering(Widget):
     Clock.unschedule(self.checkIfModeIsCompleted)
 
 
+  def fadein(self):
+    pass
+
+
+  def fadeout(self):
+    pass    
+    
+
   def reset(self, instance=False):
     self.all_zones_of_interest_viewedMessageSent = False    
     for shape in self.shapes:

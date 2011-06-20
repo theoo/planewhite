@@ -62,6 +62,13 @@ class Credits(Widget):
     Clock.unschedule(self.displayCredits)
     Clock.unschedule(self.announceTheEnd)
 
+  def fadein(self):
+    pass
+
+
+  def fadeout(self):
+    pass    
+
 
   def reset(self):
     self.alpha_index = 0.0    
