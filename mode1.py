@@ -53,7 +53,7 @@ class ScreenSaver(Widget):
     # Scaner
     self.scan_endMessageSent = False
     self.screensaver_touchedMessageSent = False
-    self.fadeIn = False
+    self.fadeInMessageReceived = False
       
     self.scanner = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,1], pos=(0 - 218,0))
     self.add_widget(self.scanner)
@@ -80,7 +80,7 @@ class ScreenSaver(Widget):
 
 
   def fadein(self):
-    self.fadeIn = True
+    self.fadeInMessageReceived = True
     print "ScreenSaver fadeIn() called"
     self.points = []
     self.draw_ellipse()
@@ -97,7 +97,7 @@ class ScreenSaver(Widget):
     
   def reset(self):
     self.screensaver_touchedMessageSent = False    
-    self.fadeIn = False
+    self.fadeInMessageReceived = False
     self.points = []
     self.trigger_points = []
 
@@ -153,7 +153,7 @@ class ScreenSaver(Widget):
     if target.x >= (self.pos[0] + self.width - target.width - NETWORK_DELAY):
       if not self.scan_endMessageSent:
         print "Scan reached right of screen."
-        if not self.screensaver_touchedMessageSent:
+        if self.fadeInMessageReceived:
           self.controller.sendMessage("scan_end") # sync next client
           self.scan_endMessageSent = True
 
