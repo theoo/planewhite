@@ -89,7 +89,7 @@ class Credits(Widget):
 
 # Custom callbacks  
   def displayCredits(self, instance=False):
-      self.add_widget(Label(text="Made with love.", font_size=50, color=(1,1,1,1), pos=Window.center))
+      self.add_widget(Label(text="Carina Ow.", font_size=50, color=(1,1,1,1), pos=Window.center))
 
 
   def announceTheEnd(self, instance=False):
