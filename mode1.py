@@ -80,9 +80,6 @@ class ScreenSaver(Widget):
 
 
   def fadein(self):
-    Clock.unschedule(self.scan)
-    self.remove_widget(self.scanner)    
-        
     self.fadeInMessageReceived = True
     print "ScreenSaver fadeIn() called"
     self.points = []
