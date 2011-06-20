@@ -80,6 +80,9 @@ class ScreenSaver(Widget):
 
 
   def fadein(self):
+    Clock.unschedule(self.scan)
+    self.remove_widget(self.scanner)    
+        
     self.fadeInMessageReceived = True
     print "ScreenSaver fadeIn() called"
     self.points = []
@@ -155,8 +158,8 @@ class ScreenSaver(Widget):
   def syncServerCommunication(self, animation, target, progression):
     if target.x >= (self.pos[0] + self.width - target.width - NETWORK_DELAY):
       if not self.scan_endMessageSent:
-        print "Scan reached right of screen."
         if not self.fadeInMessageReceived:
+          print "Scan reached right of screen."
           self.controller.sendMessage("scan_end") # sync next client
           self.scan_endMessageSent = True
 
