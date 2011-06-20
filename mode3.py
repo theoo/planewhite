@@ -47,10 +47,11 @@ class Discovering(Widget):
                                           desc=zi[2],
                                           desc_pos=zi[3]) )
 
+
+    Clock.schedule_interval(self.pulse, 0.1)
     
     for shape in self.shapes:            
       # add to the view
-      Clock.schedule_interval(shape.pulse_widget_alpha, 0.1)
       self.add_widget(shape)
 
 
@@ -87,6 +88,9 @@ class Discovering(Widget):
       self.all_zones_of_interest_viewedMessageSent = True
 
 # Custom callbacks
+  def pulse(self, dt):
+    for shape in self.shapes:
+      Clock.schedule_interval(shape.pulse_widget_alpha, 0.1)
 
 
 # Kivy callbacks
