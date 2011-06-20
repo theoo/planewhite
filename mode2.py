@@ -7,11 +7,13 @@ from kivy.app import App
 from kivy.animation import Animation
 
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.image import Image
+import kivy.core.image
+import kivy.uix.image
 #from kivy.core.image import Image
 
 from kivy.graphics import *
 
+from lib.utils import ZoneOfInterest
 import lib.config, lib.kwargs
 
 # Configuration
@@ -34,16 +36,26 @@ class Learning(Widget):
     
     self.threshold_reachedMessageSent = False
 
+    self.points = []
+
+    # ZoneOfInterest
+    self.shapes = []
+    
+    for zi in lib.config.zones_of_interest[self.clientIdIndex]:
+      self.shapes.append( ZoneOfInterest( img=kivy.core.image.Image(zi[0]),
+                                          pos=zi[1],
+                                          alpha_index=1.0) )
+
     
     rez = lib.config.viewport[self.clientIdIndex]
     self.max_points = (MAX_POINTS * RATIO / 1024) * abs(rez[0] - rez[1])
-    
-    self.reset()
+
+    self.add_shapes()
+
 
 # basis
   def start(self):
     print "Learning start() called"
-    pass
     
     
   def stop(self):
@@ -96,10 +108,16 @@ class Learning(Widget):
         Ellipse(pos=(pos[0] - diameter / 2, pos[1] - diameter / 2), size=(diameter, diameter))
       
       StencilUse()
-      Image(source=self.background_path, size=(1024,768), color=[1,1,1,1], pos=(0,0))
+      kivy.uix.image.Image(source=self.background_path, size=(1024,768), color=[1,1,1,1], pos=(0,0))
       
-      StencilPop()  
-      
+      StencilPop()
+
+    self.add_shapes()
+    
+  def add_shapes(self):
+    for shape in self.shapes:
+      self.canvas.add(shape.object)
+        
 # Custom Callbacks
 
 # Kivy Callbacks    
