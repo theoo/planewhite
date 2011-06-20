@@ -47,10 +47,10 @@ class Discovering(Widget):
                                           desc=zi[2],
                                           desc_pos=zi[3]) )
 
-    Clock.schedule_interval(self.pulse, 0.1)
     
     for shape in self.shapes:            
       # add to the view
+      Clock.schedule_interval(shape.pulse_widget_alpha, 0.1)
       self.add_widget(shape)
 
 
@@ -85,26 +85,6 @@ class Discovering(Widget):
       print "All zones of interest seens"
       self.controller.sendMessage("all_zones_of_interest_viewed") # go to next mode
       self.all_zones_of_interest_viewedMessageSent = True
-
-
-  def pulse(self, dt):
-    for shape in self.shapes:
-      # TODO: improve!
-      if shape.alpha_direction == 0:
-        if shape.alpha_index < 1.0:
-          shape.alpha_index += 0.1
-        else:
-          shape.alpha_direction = 1
-      else:
-        if shape.alpha_index > 0.1:
-          shape.alpha_index -= 0.1
-        else:
-          shape.alpha_direction = 0
-
-      shape.canvas.remove(shape.color)
-      shape.color = Color(1,1,1,shape.alpha_index)
-      shape.canvas.insert(0, shape.color )
-
 
 # Custom callbacks
 
