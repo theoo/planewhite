@@ -124,10 +124,11 @@ class ScreenSaver(Widget):
 
   def add_scanner(self, target, dt):
     self.add_widget(self.scanner)
+    self.add_widget(self.mask)
 
   def remove_scanner(self, target, dt):
     self.remove_widget(self.scanner)
-
+    self.remove_widget(self.mask)
 
   def draw_ellipse(self):
     self.remove_widget(self.scanner)
