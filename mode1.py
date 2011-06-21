@@ -116,7 +116,7 @@ class ScreenSaver(Widget):
     a1.bind(on_progress=self.syncServerCommunication)
     a1.bind(on_complete=self.remove_scanner)
     a1.start(self.scanner)
-    self.canvas.ask_update()
+    print self.children
 
   def add_scanner(self, target, dt):
     self.add_widget(self.scanner)
