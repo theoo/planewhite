@@ -17,7 +17,7 @@ from kivy.core.image import Image
 from kivy.core.text import LabelBase
 from kivy.graphics import *
 
-from lib.utils import ZoneOfInterest, AlphaWidget
+from lib.utils import *
 import lib.config, lib.kwargs
 
 # Configuration
@@ -43,13 +43,11 @@ class Discovering(Widget):
     
     # zones of interest
     self.shapes = []
+    self.descriptions = []
     
     for zi in lib.config.zones_of_interest[self.clientIdIndex]:
-      self.shapes.append( ZoneOfInterest( img=Image(zi[0]),
-                                          pos=zi[1],
-                                          desc=zi[2],
-                                          desc_pos=zi[3]) )
-
+      self.shapes.append( ZoneOfInterest(img=Image(zi[0]), pos=zi[1]) )
+      self.descriptions.append( ZoneOfDescription(img=Image(zi[2]), pos=zi[3]) )
 
     Clock.schedule_interval(self.pulse, 0.1)
     
@@ -84,7 +82,7 @@ class Discovering(Widget):
   def reset(self, instance=False):
     self.all_zones_of_interest_viewedMessageSent = False    
     for shape in self.shapes:
-      self.remove_widget(shape.desc_box)
+      self.remove_widget(self.descFor(shape))
       shape.viewed = False
     
 # Custom methods
@@ -98,6 +96,9 @@ class Discovering(Widget):
       print "All zones of interest seens"
       self.controller.sendMessage("all_zones_of_interest_viewed") # go to next mode
       self.all_zones_of_interest_viewedMessageSent = True
+      
+  def descFor(self, shape):
+    return self.descriptions[self.shapes.index(shape)]
 
 # Custom callbacks
   def pulse(self, dt):
@@ -122,9 +123,10 @@ class Discovering(Widget):
     for shape in self.shapes:
       # add interaction
       if shape.collide_point(*touch.pos):
-        if self.children.count(shape.desc_box) < 1:
+        if self.children.count(self.descFor(shape)) < 1:
           # displays text box
-          self.add_widget(shape.desc_box)
+          print self.descFor(shape)
+          self.add_widget(self.descFor(shape))
           shape.viewed = True
 
 

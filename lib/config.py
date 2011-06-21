@@ -14,9 +14,9 @@ backgrounds = ["images/bgs/1.jpg", "images/bgs/2.jpg", "images/bgs/3.jpg", "imag
 #                      [ ["images/cut/4_313x386.png", (313, 768 - 386), "Un intellectuel assis va moins\n loin qu'un con qui marche.", (50,150)] ] ]
                       
 zones_of_interest = [ [],
-                      [ ["images/cut/2a_187x607.png", (187, 768 - 607), "The curved line is a straight line\n which has been brought out of\n its course by constant sideward pressure.", (150,500)] ], 
-                      [ ["images/cut/3a_1x765.png", (1, 768 - 765), "Angular lines originate from the pressure\n of two forces upon a straight line.", (50,300)], ["images/cut/3a_692x447.png", (692, 768 - 447), "The plane becomes a circle when its angles\n multiply in ever increasing numbers\n and become more and more obtuse until\n they finally disappear.", (400,600)] ],
-                      [ ["images/cut/4a_269x430.png", (269, 768 - 430), "Four right angles form a square.\n (tentative)", (50,150)] ] ]
+                      [ ["images/cut/2a_187x607.png", (187, 768 - 607), "images/cut/curve_184x608.png", (184, 768 - 608)] ], 
+                      [ ["images/cut/3a_1x765.png", (1, 768 - 765), "images/cut/angle_42x766.png", (42,768 - 766)], ["images/cut/3a_692x447.png", (692, 768 - 447), "images/cut/circle_658x396.png", (658, 768 - 396)] ],
+                      [ ["images/cut/4a_269x430.png", (269, 768 - 430), "images/cut/circle_658x396.png", (50,150)] ] ]
                       
 
 CURSOR_IMG_PATH = 'images/cursor.png'

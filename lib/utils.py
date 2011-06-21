@@ -76,9 +76,26 @@ class AlphaWidget(Widget):
     
 
 ########################################################################
+class ZoneOfDescription(Widget):
+
+  def __init__(self, img=None, pos=(0,0), **kwargs):
+    super(ZoneOfDescription, self).__init__(**kwargs)
+    
+    self.pos = pos
+    self.img = img
+    self.object = Rectangle(texture=self.img.texture, size=self.img.size)
+    self.object.pos = self.pos
+
+    self.color = Color(1,1,1,1) 
+    self.canvas.add(self.color)
+    self.canvas.add(self.object)
+    
+    self.size = img.size
+    
+
 class ZoneOfInterest(AlphaWidget):
-  
-  def __init__(self, img=None, pos=(0,0), desc="", desc_pos=(0,0), **kwargs):
+
+  def __init__(self, img=None, pos=(0,0), **kwargs):
     super(ZoneOfInterest, self).__init__(**kwargs)
     
     self.pos = pos
@@ -86,8 +103,6 @@ class ZoneOfInterest(AlphaWidget):
     self.object = Rectangle(texture=self.img.texture, size=self.img.size)
     self.object.pos = self.pos
     self.viewed = False # toggled once widget is viewed
-    self.desc = desc
-    self.desc_pos = desc_pos
 
     # I store the color to be able to remove it from canvas afterwards.
     self.color = Color(1,1,1,1) 
@@ -97,12 +112,13 @@ class ZoneOfInterest(AlphaWidget):
     # TODO:  this extend the touch area (collision) to the size of image. 
     # If image isn't square the whole widget is touch-able.
     self.size = img.size
-    
+
+    """    
     box_size = (450,150)
     box_position = self.desc_pos
 
     desc_box = Widget()
-    
+
     label = Label( text=self.desc, 
                    font_size=15,
                    font_name="fonts/Akkurat.ttf",
@@ -113,4 +129,4 @@ class ZoneOfInterest(AlphaWidget):
     desc_box.add_widget(label)
 
     self.desc_box = desc_box
-
+    """

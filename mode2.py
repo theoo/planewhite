@@ -39,7 +39,7 @@ class Learning(Widget):
     self.points = []
 
     # cursor
-    self.cursor = kivy.uix.image.Image(source=lib.config.CURSOR_IMG_PATH, color=(1,1,1,1))
+#    self.cursor = kivy.uix.image.Image(source=lib.config.CURSOR_IMG_PATH, color=(1,1,1,1))
     
     # ZoneOfInterest
     self.shapes = []
@@ -95,8 +95,6 @@ class Learning(Widget):
     
     self.points.append(touch.pos)
 
-    self.remove_widget(self.cursor)
-
     # required, this fix a performance issue.
     self.canvas.clear()
        
@@ -117,7 +115,6 @@ class Learning(Widget):
       StencilPop()
 
     self.add_shapes()
-    self.add_widget(self.cursor)
 
     
   def add_shapes(self):
@@ -128,21 +125,17 @@ class Learning(Widget):
 
 # Kivy Callbacks    
   def on_touch_down(self, touch):
-    self.add_widget(self.cursor)
-    self.cursor.pos = (touch.x - self.cursor.height / 2, touch.y - self.cursor.width / 2)
+#    self.add_widget(self.cursor)
+#    self.cursor.pos = (touch.x - self.cursor.height / 2, touch.y - self.cursor.width / 2)
     
     self.draw_ellipse(touch)
     
 
   def on_touch_move(self, touch):
-    self.cursor.pos = (touch.x - self.cursor.height / 2, touch.y - self.cursor.width / 2)
-
     self.draw_ellipse(touch)       
 
 
-  def on_touch_up(self, touch):
-    self.remove_widget(self.cursor)
-    
+  def on_touch_up(self, touch):    
     self.checkIfModeIsCompleted()    
 
 

@@ -117,8 +117,9 @@ if __name__ == '__main__':
   class CreditsApp(App):
     def build(self):      
       base = Widget()
-      base.add_widget(Credits())
-      
+      credit = Credits()
+      base.add_widget(credit)
+      credit.start()
       return base
       
   CreditsApp().run()
