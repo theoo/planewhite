@@ -36,6 +36,7 @@ class Discovering(Widget):
     # First item of self.shapes is the background
     self.bg_img = Image(lib.config.backgrounds[self.clientIdIndex])
     with self.canvas:
+      Color(1,1,1,0.5)
       Rectangle(texture=self.bg_img.texture, size=self.bg_img.size, pos=(0,0))
     
     # zones of interest
