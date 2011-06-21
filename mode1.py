@@ -111,7 +111,6 @@ class ScreenSaver(Widget):
 # Custom methods
   def scan(self, dt):
     self.scanner.pos = (self.pos[0] - self.scanner.width,0)
-    
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
     a1.bind(on_progress=self.syncServerCommunication)
     a1.bind(on_complete=self.remove_scan)
@@ -119,7 +118,11 @@ class ScreenSaver(Widget):
     a1.start(self.scanner)
 
 
-  def remove_scan(self, target, dt):
+  def add_scanner(self):
+    self.add_widget(self.scanner)
+    
+
+  def remove_scannet(self, target, dt):
     self.remove_widget(self.scanner)
 
 
