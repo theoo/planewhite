@@ -129,7 +129,7 @@ class Cursor(Widget):
 
   def on_touch_down(self, touch):
 #    self.cursor.size= (self.cursor_height * touch.shape.height, self.cursor_width * touch.shape.width)
-    print self.cursor.profile
+    print touch.profile
     self.cursor.pos = (touch.x - self.cursor.height / 2, touch.y - self.cursor.width / 2)
     self.add_widget(self.cursor)
 
