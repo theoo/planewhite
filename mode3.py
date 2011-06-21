@@ -93,9 +93,10 @@ class Discovering(Widget):
         return
     
     if not self.all_zones_of_interest_viewedMessageSent:
-      print "All zones of interest seens"
+      print "All zones of interest viewed"
       self.controller.sendMessage("all_zones_of_interest_viewed") # go to next mode
       self.all_zones_of_interest_viewedMessageSent = True
+
       
   def descFor(self, shape):
     return self.descriptions[self.shapes.index(shape)]
@@ -119,6 +120,8 @@ class Discovering(Widget):
     # check if mode is complete before so I can read the text.
     # Next touch will throw a message to the server
     self.checkIfModeIsCompleted()
+
+    Clock.schedule_once(self.checkIfModeIsCompleted(), 5.0)
 
     for shape in self.shapes:
       # add interaction
