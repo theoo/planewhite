@@ -132,7 +132,7 @@ class ScreenSaver(Widget):
     self.add_widget(self.mask)
 
   def remove_mask(self, target, dt):
-    self.scanner.pos = (self.pos[0] - self.scanner.width,0)
+    self.scanner.pos = (self.pos[0] - self.scanner.width * 2,0)
     self.remove_widget(self.mask)
 
   def draw_ellipse(self):
