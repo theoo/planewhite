@@ -4,7 +4,7 @@ host = "10.0.0.1"
 port = 4000
 
 # client config
-viewport = [(600, 1024), (0, 1024), (0, 1024), (0, 600)]
+viewport = [(400, 1024), (0, 1024), (0, 1024), (0, 600)]
 
 backgrounds = ["images/bgs/1.jpg", "images/bgs/2.jpg", "images/bgs/3.jpg", "images/bgs/4.jpg"]
 
