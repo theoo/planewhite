@@ -57,7 +57,7 @@ class ScreenSaver(Widget):
     self.scanner = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=(1,1,1,1), pos=(0 - 218,0))
     
     self.mask = Widget()
-    self.mask.canvas.add(Rectangle(size=self.scanner.size, pos=(100,0), color=(0,0,0,0) ))
+    self.mask.canvas.add(Rectangle(size=self.scanner.size, pos=(100,0), color=(1,1,1,0.5) ))
     self.add_widget(self.mask)
     
     # cartel
