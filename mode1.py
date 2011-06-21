@@ -118,7 +118,7 @@ class ScreenSaver(Widget):
     a1.start(self.scanner)
 
 
-  def add_scanner(self):
+  def add_scanner(self, target, dt):
     self.add_widget(self.scanner)
     
 
