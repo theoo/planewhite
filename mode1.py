@@ -55,7 +55,6 @@ class ScreenSaver(Widget):
     self.fadeInMessageReceived = False
       
     self.scanner = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=(1,1,1,1), pos=(0 - 218,0))
-    self.add_widget(self.scanner)
     
     # cartel
 #    self.cartel = Label(text="PlaneWhite", pos=(600,650), font_size=60, color=(1,1,1,1), halign="right")
@@ -103,9 +102,9 @@ class ScreenSaver(Widget):
     for shape in self.shapes:
       self.remove_widget(shape)    
 
-    self.remove_widget(self.scanner)    
-    self.canvas.clear()
-    self.add_widget(self.scanner)
+#    self.remove_widget(self.scanner)    
+#    self.canvas.clear()
+#    self.add_widget(self.scanner)
     
 
 # Custom methods
@@ -114,13 +113,12 @@ class ScreenSaver(Widget):
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
     a1.bind(on_start=self.add_scanner)
     a1.bind(on_progress=self.syncServerCommunication)
-#    a1.bind(on_complete=self.remove_scanner)
+    a1.bind(on_complete=self.remove_scanner)
     a1.start(self.scanner)
     print self.children
 
   def add_scanner(self, target, dt):
     self.add_widget(self.scanner)
-    
 
   def remove_scanner(self, target, dt):
     self.remove_widget(self.scanner)
