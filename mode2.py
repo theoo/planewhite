@@ -39,6 +39,7 @@ class Learning(Widget):
     self.points = []
 
     # cursor
+    self.cursor = kivy.uix.image.Image(source=lib.config.CURSOR_IMG_PATH, color=(1,1,1,1))
     
     # ZoneOfInterest
     self.shapes = []
