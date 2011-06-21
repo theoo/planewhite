@@ -124,14 +124,17 @@ class Cursor(Widget):
     super(Cursor, self).__init__(**kwargs)
     
     self.cursor = kivy.uix.image.Image(source=config.CURSOR_IMG_PATH, color=(1,1,1,1))
-    self.cursor.size = (300,300)
+    self.cursor_width = 250
+    self.cursor_height = 250
 
   def on_touch_down(self, touch):
-    self.add_widget(self.cursor)
+    self.cursor.size= (self.cursor_height * touch.shape.height, self.cursor_width * touch.shape.width)
     self.cursor.pos = (touch.x - self.cursor.height / 2, touch.y - self.cursor.width / 2)
+    self.add_widget(self.cursor)
 
 
   def on_touch_move(self, touch):
+    self.cursor.size= (self.cursor_height * touch.shape.height, self.cursor_width * touch.shape.width)    
     self.cursor.pos = (touch.x - self.cursor.height / 2, touch.y - self.cursor.width / 2)
 
   def on_touch_up(self, touch):
