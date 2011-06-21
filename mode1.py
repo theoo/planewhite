@@ -119,7 +119,7 @@ class ScreenSaver(Widget):
     a1.start(self.scanner)
 
 
-  def remove_scan(self, instance=False):
+  def remove_scan(self, target, dt):
     self.remove_widget(self.scanner)
 
 
