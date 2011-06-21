@@ -121,7 +121,7 @@ class ScreenSaver(Widget):
 
 # Custom methods
   def scan(self, dt):
-    sound = SoundLoader.load(filename='screech_blip.wav')
+    sound = SoundLoader.load('screech_blip.wav')
     sound.play()
     
     self.scanner.pos = (self.pos[0] - self.scanner.width,0)    
