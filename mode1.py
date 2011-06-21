@@ -126,15 +126,13 @@ class ScreenSaver(Widget):
     a1.bind(on_progress=self.syncServerCommunication)
     a1.bind(on_complete=self.remove_mask)
     a1.start(self.scanner)
-    print self.scanner.pos
-    print self.children
-    print self.children.count(self.scanner)
 
   def add_mask(self, target, dt):
     self.add_widget(self.mask)
 
   def remove_mask(self, target, dt):
-    self.scanner.pos = (self.pos[0] - self.scanner.width,0)    
+    self.scanner.pos = (self.pos[0] - self.scanner.width,0)
+    print (self.pos[0] - self.scanner.width,0)
     self.remove_widget(self.mask)
 
   def draw_ellipse(self):
