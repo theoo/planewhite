@@ -4,7 +4,7 @@ def set_kwargs(self, **kwargs):
     self.controller = kwargs.pop("controller")
     self.clientIdIndex = int(self.controller.clientId) - 1
   else:
-    self.clientIdIndex = 0
+    self.clientIdIndex = 1
 
   if kwargs.has_key("modeId"):
     self.modeId = kwargs.pop("modeId")
