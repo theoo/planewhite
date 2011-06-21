@@ -10,6 +10,7 @@ from kivy.animation import Animation
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 
+from kivy.core.audio import SoundLoader
 import kivy.core.image
 import kivy.uix.image
 
@@ -20,7 +21,7 @@ import lib.config, lib.kwargs
 
 # Configuration
 SCAN_IMG_PATH = 'images/scan.png'
-SCAN_DURATION = 0.5
+SCAN_DURATION = 5.0
 NETWORK_DELAY = 0 # frames
 TRIGGER_POINTS_THRESHOLD = 150
 
@@ -120,6 +121,9 @@ class ScreenSaver(Widget):
 
 # Custom methods
   def scan(self, dt):
+    sound = SoundLoader.load(filename='screech_blip.wav')
+    sound.play()
+    
     self.scanner.pos = (self.pos[0] - self.scanner.width,0)    
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
     a1.bind(on_start=self.add_mask)
