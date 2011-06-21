@@ -13,7 +13,7 @@ import kivy.uix.image
 
 from kivy.graphics import *
 
-from lib.utils import ZoneOfInterest
+from lib.utils import ZoneOfInterest, AlphaWidget
 import lib.config, lib.kwargs
 
 # Configuration
@@ -38,6 +38,8 @@ class Learning(Widget):
 
     self.points = []
 
+    # cursor
+    
     # ZoneOfInterest
     self.shapes = []
     
@@ -58,7 +60,7 @@ class Learning(Widget):
     
     
   def stop(self):
-    print "Learning stop() called"    
+    print "Learning stop() called"
     self.reset()
 
 
@@ -92,6 +94,8 @@ class Learning(Widget):
     
     self.points.append(touch.pos)
 
+    self.remove_widget(self.cursor)
+
     # required, this fix a performance issue.
     self.canvas.clear()
        
@@ -112,6 +116,8 @@ class Learning(Widget):
       StencilPop()
 
     self.add_shapes()
+    self.add_widget(self.cursor)
+
     
   def add_shapes(self):
     for shape in self.shapes:
@@ -121,14 +127,21 @@ class Learning(Widget):
 
 # Kivy Callbacks    
   def on_touch_down(self, touch):
+    self.add_widget(self.cursor)
+    self.cursor.pos = (touch.x - self.cursor.height / 2, touch.y - self.cursor.width / 2)
+    
     self.draw_ellipse(touch)
     
 
   def on_touch_move(self, touch):
+    self.cursor.pos = (touch.x - self.cursor.height / 2, touch.y - self.cursor.width / 2)
+
     self.draw_ellipse(touch)       
 
 
   def on_touch_up(self, touch):
+    self.remove_widget(self.cursor)
+    
     self.checkIfModeIsCompleted()    
 
 

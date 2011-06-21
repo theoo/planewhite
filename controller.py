@@ -26,7 +26,6 @@ class Controller(Widget):
     self.startConnection()
     self.serverIsReady = False
 
-
   # messages from server arrive here
   #
   def onNewMessageFromServer(self, message):

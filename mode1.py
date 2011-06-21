@@ -24,7 +24,6 @@ SCAN_DURATION = 1.5
 NETWORK_DELAY = 0 # frames
 TRIGGER_POINTS_THRESHOLD = 150
 
-
 ########################################################################
 class ScreenSaver(Widget):
   
@@ -41,7 +40,10 @@ class ScreenSaver(Widget):
 
     self.points = []
     self.trigger_points = []
-    
+
+    # touch position
+    self.cursor = kivy.uix.image.Image(source=lib.config.CURSOR_IMG_PATH, color=(1,1,1,1))
+        
     # ZoneOfInterest
     self.shapes = []
     
@@ -55,7 +57,7 @@ class ScreenSaver(Widget):
     self.screensaver_touchedMessageSent = False
     self.fadeInMessageReceived = False
       
-    self.scanner = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=[1,1,1,1], pos=(0 - 218,0))
+    self.scanner = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=(1,1,1,1), pos=(0 - 218,0))
     self.add_widget(self.scanner)
     
     # cartel
@@ -121,6 +123,7 @@ class ScreenSaver(Widget):
 
   def draw_ellipse(self):
     self.remove_widget(self.scanner)
+    self.remove_widget(self.cursor)
 
     self.canvas.clear()
        
@@ -139,6 +142,7 @@ class ScreenSaver(Widget):
       StencilPop()
 
     self.add_widget(self.scanner)
+    self.add_widget(self.cursor)
 
 
   def add_trigger_point(self, touch):
@@ -165,21 +169,28 @@ class ScreenSaver(Widget):
 
 
 # Kivy Callbacks
-  def on_touch_down(self, touch):
+  def on_touch_down(self, touch):    
+    self.add_widget(self.cursor)
+    self.cursor.pos = (touch.x - self.cursor.height / 2, touch.y - self.cursor.width / 2)
+    
     if not self.screensaver_touchedMessageSent:
       self.points.append(touch.pos)
       self.draw_ellipse()
       self.add_trigger_point(touch)
 
 
-  def on_touch_move(self, touch):
+  def on_touch_move(self, touch):        
+    self.cursor.pos = (touch.x - self.cursor.height / 2, touch.y - self.cursor.width / 2)
+    
     if not self.screensaver_touchedMessageSent:
       self.points.append(touch.pos)
       self.draw_ellipse()
-      self.add_trigger_point(touch)    
+      self.add_trigger_point(touch)
 
 
   def on_touch_up(self, touch):
+    self.remove_widget(self.cursor)
+        
     if len(self.trigger_points) > TRIGGER_POINTS_THRESHOLD:
       if not self.screensaver_touchedMessageSent:
         print "Screensaver touched. ", len(self.trigger_points)
