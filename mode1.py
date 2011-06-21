@@ -58,7 +58,7 @@ class ScreenSaver(Widget):
     
     self.mask = Widget()
     self.mask.canvas.add(Color(1,0,0,1,mode="rgb"))
-    self.mask.canvas.add(Rectangle(size=self.scanner.size, pos=(self.pos[0],0)))
+    self.mask.canvas.add(Rectangle(size=self.scanner.size, pos=(self.pos[0] + self.width,0)))
     
     # cartel
 #    self.cartel = Label(text="PlaneWhite", pos=(600,650), font_size=60, color=(1,1,1,1), halign="right")
