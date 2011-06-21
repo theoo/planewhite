@@ -123,6 +123,7 @@ class ScreenSaver(Widget):
     
 
   def remove_scanner(self, target, dt):
+    print "removing scanner"
     self.remove_widget(self.scanner)
 
 
