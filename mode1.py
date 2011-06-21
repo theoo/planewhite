@@ -131,7 +131,8 @@ class ScreenSaver(Widget):
     self.remove_widget(self.mask)
 
   def draw_ellipse(self):
-    self.remove_widget(self.scanner)
+    if self.children.count(self.scanner) > 0:
+      self.remove_widget(self.scanner)
 
     self.canvas.clear()
        
@@ -149,8 +150,8 @@ class ScreenSaver(Widget):
       
       StencilPop()
 
-    self.add_widget(self.scanner)
-
+    if self.children.count(self.scanner) == 0:
+      self.add_widget(self.scanner)
 
   def add_trigger_point(self, touch):
     for shape in self.shapes:
