@@ -105,8 +105,13 @@ class ScreenSaver(Widget):
     self.points = []
     self.trigger_points = []
 
+    # remove shapes widgets
     for shape in self.shapes:
       self.remove_widget(shape)    
+
+    # reset scanner position
+    self.scanner.pos = (self.pos[0] - self.scanner.width,0)
+
 
 #    self.remove_widget(self.scanner)    
 #    self.canvas.clear()
@@ -115,7 +120,6 @@ class ScreenSaver(Widget):
 
 # Custom methods
   def scan(self, dt):
-#    self.scanner.pos = (self.pos[0] - self.scanner.width,0)
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
     a1.bind(on_start=self.add_mask)
     a1.bind(on_progress=self.syncServerCommunication)
