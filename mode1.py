@@ -114,7 +114,7 @@ class ScreenSaver(Widget):
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
     a1.bind(on_start=self.add_scanner)
     a1.bind(on_progress=self.syncServerCommunication)
-    a1.bind(on_complete=self.remove_scanner)
+#    a1.bind(on_complete=self.remove_scanner)
     a1.start(self.scanner)
     print self.children
 
