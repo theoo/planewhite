@@ -120,6 +120,7 @@ class ScreenSaver(Widget):
     a1.bind(on_complete=self.remove_scanner)
     a1.start(self.scanner)
     print self.children
+    print self.children.index(self.scanner)
 
 
   def add_scanner(self, target, dt):
