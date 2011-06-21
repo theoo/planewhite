@@ -56,6 +56,10 @@ class ScreenSaver(Widget):
       
     self.scanner = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=(1,1,1,1), pos=(0 - 218,0))
     
+    self.mask = Widget()
+    self.mask.canvas.add(Rectangle(size=self.scanner.size, pos=(1000,0), color=(0,0,0,1) ))
+    self.add_widget(self.mask)
+    
     # cartel
 #    self.cartel = Label(text="PlaneWhite", pos=(600,650), font_size=60, color=(1,1,1,1), halign="right")
 #    self.touch_me = Label(text="by Carina Ow uber star", pos=(600,600), font_size=20, color=(1,1,1,1), halign="right")
@@ -115,7 +119,6 @@ class ScreenSaver(Widget):
     a1.bind(on_progress=self.syncServerCommunication)
     a1.bind(on_complete=self.remove_scanner)
     a1.start(self.scanner)
-    print self.children
 
   def add_scanner(self, target, dt):
     self.add_widget(self.scanner)
