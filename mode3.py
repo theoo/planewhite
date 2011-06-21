@@ -35,11 +35,8 @@ class Discovering(Widget):
 
     # First item of self.shapes is the background
     self.bg_img = Image(lib.config.backgrounds[self.clientIdIndex])
-    self.bg = AlphaWidget()
-    with self.bg.canvas:
+    with self.canvas:
       Rectangle(texture=self.bg_img.texture, size=self.bg_img.size, pos=(0,0))
-      
-    self.add_widget(self.bg)
     
     # zones of interest
     self.shapes = []
@@ -60,9 +57,6 @@ class Discovering(Widget):
     print "Discovering start() called"
     Clock.schedule_once(self.checkIfModeIsCompleted, 1)
     self.pulse()
-      
-    self.bg.alpha = 0.0
-    self.bg.fadeIn()
 
     
   def stop(self):
