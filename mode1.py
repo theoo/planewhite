@@ -55,6 +55,8 @@ class ScreenSaver(Widget):
     self.fadeInMessageReceived = False
       
     self.scanner = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=(1,1,1,1), pos=(0 - 218,0))
+    self.add_widget(self.scanner)
+        
     
     self.mask = Widget()
     self.mask.canvas.add(Color(1,0,0,1,mode="rgb"))
@@ -115,20 +117,18 @@ class ScreenSaver(Widget):
   def scan(self, dt):
     self.scanner.pos = (self.pos[0] - self.scanner.width,0)
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
-    a1.bind(on_start=self.add_scanner)
+    a1.bind(on_start=self.add_mask)
     a1.bind(on_progress=self.syncServerCommunication)
-    a1.bind(on_complete=self.remove_scanner)
+    a1.bind(on_complete=self.remove_mask)
     a1.start(self.scanner)
     print self.children
     print self.children.count(self.scanner)
 
 
-  def add_scanner(self, target, dt):
-    self.add_widget(self.scanner)
+  def add_mask(self, target, dt):
     self.add_widget(self.mask)
 
-  def remove_scanner(self, target, dt):
-    self.remove_widget(self.scanner)
+  def remove_mask(self, target, dt):
     self.remove_widget(self.mask)
 
   def draw_ellipse(self):
