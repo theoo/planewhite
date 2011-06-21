@@ -114,8 +114,13 @@ class ScreenSaver(Widget):
     
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
     a1.bind(on_progress=self.syncServerCommunication)
+    a1.bind(on_complete=self.remove_scan)
 #    a1.bind(on_complete=self.onAnimComplete)
     a1.start(self.scanner)
+
+
+  def remove_scan(self, instance=False):
+    self.remove_widget(self.scanner)
 
 
   def draw_ellipse(self):
