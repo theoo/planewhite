@@ -112,9 +112,9 @@ class ScreenSaver(Widget):
   def scan(self, dt):
     self.scanner.pos = (self.pos[0] - self.scanner.width,0)
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
+    a1.bind(on_start=self.add_scanner)
     a1.bind(on_progress=self.syncServerCommunication)
-    a1.bind(on_complete=self.remove_scan)
-#    a1.bind(on_complete=self.onAnimComplete)
+    a1.bind(on_complete=self.remove_scanner)
     a1.start(self.scanner)
 
 
@@ -122,7 +122,7 @@ class ScreenSaver(Widget):
     self.add_widget(self.scanner)
     
 
-  def remove_scannet(self, target, dt):
+  def remove_scanner(self, target, dt):
     self.remove_widget(self.scanner)
 
 
@@ -155,10 +155,6 @@ class ScreenSaver(Widget):
 
 
 # Custom Callbacks
-  def onAnimComplete(self, animation=False, target=False):
-    Clock.schedule_once(self.scan, 0)
-
-
   def syncServerCommunication(self, animation, target, progression):
     if target.x >= (self.pos[0] + self.width - target.width - NETWORK_DELAY):
       if not self.scan_endMessageSent:
