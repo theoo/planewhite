@@ -55,6 +55,7 @@ class ScreenSaver(Widget):
     self.fadeInMessageReceived = False
       
     self.scanner = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=(1,1,1,1), pos=(0 - 218,0))
+    self.scanner.pos = (self.pos[0] - self.scanner.width,0)
     self.add_widget(self.scanner)
         
     
@@ -124,7 +125,8 @@ class ScreenSaver(Widget):
     a1.bind(on_progress=self.syncServerCommunication)
     a1.bind(on_complete=self.remove_mask)
     a1.start(self.scanner)
-
+    print self.children
+    print self.children.count(self.scanner)
 
   def add_mask(self, target, dt):
     self.add_widget(self.mask)
