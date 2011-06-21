@@ -124,7 +124,7 @@ class Cursor(Widget):
     super(Cursor, self).__init__(**kwargs)
     
     self.cursor = kivy.uix.image.Image(source=config.CURSOR_IMG_PATH, color=(1,1,1,1))
-    self.cursor.size = (400,400)
+    self.cursor.size = (300,300)
 
   def on_touch_down(self, touch):
     self.add_widget(self.cursor)
