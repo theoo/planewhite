@@ -49,7 +49,6 @@ class Discovering(Widget):
       self.shapes.append( ZoneOfInterest(img=Image(zi[0]), pos=zi[1]) )
       self.descriptions.append( ZoneOfDescription(img=Image(zi[2]), pos=zi[3]) )
 
-    Clock.schedule_interval(self.pulse, 0.1)
     
     for shape in self.shapes:            
       # add to the view
@@ -60,6 +59,8 @@ class Discovering(Widget):
   def start(self):
     print "Discovering start() called"
     Clock.schedule_once(self.checkIfModeIsCompleted, 1)
+    self.pulse()
+      
     self.bg.alpha = 0.0
     self.bg.fadeIn()
 
@@ -67,7 +68,7 @@ class Discovering(Widget):
   def stop(self):
     print "Discovering stop() called"    
     self.reset()
-    Clock.unschedule(self.pulse)
+    self.unpulse()
     Clock.unschedule(self.checkIfModeIsCompleted)
 
 
@@ -102,10 +103,14 @@ class Discovering(Widget):
     return self.descriptions[self.shapes.index(shape)]
 
 # Custom callbacks
-  def pulse(self, dt):
+  def pulse(self):
     for shape in self.shapes:
       Clock.schedule_interval(shape.pulse_widget_alpha, 0.1)
 
+
+  def unpulse(self):
+    for shape in self.shapes:
+      Clock.unschedule(shape.pulse_widget_alpha)
 
 # Kivy callbacks
   def on_touch_down(self, touch):
@@ -121,7 +126,7 @@ class Discovering(Widget):
     # Next touch will throw a message to the server
     self.checkIfModeIsCompleted()
 
-    Clock.schedule_once(self.checkIfModeIsCompleted(), 5.0)
+#    Clock.schedule_once(self.checkIfModeIsCompleted(), 5.0)
 
     for shape in self.shapes:
       # add interaction
