@@ -10,7 +10,7 @@ from kivy.animation import Animation
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 
-from kivy.core.audio import SoundLoader
+#from kivy.core.audio import SoundLoader
 import kivy.core.image
 import kivy.uix.image
 
