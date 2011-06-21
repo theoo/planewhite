@@ -121,8 +121,8 @@ class ScreenSaver(Widget):
 
 # Custom methods
   def scan(self, dt):
-    sound = SoundLoader.load('screech_blip.wav')
-    sound.play()
+#    sound = SoundLoader.load('screech_blip.wav')
+#    sound.play()
     
     self.scanner.pos = (self.pos[0] - self.scanner.width,0)    
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
@@ -131,12 +131,15 @@ class ScreenSaver(Widget):
     a1.bind(on_complete=self.remove_mask)
     a1.start(self.scanner)
 
+
   def add_mask(self, target, dt):
     self.add_widget(self.mask)
+
 
   def remove_mask(self, target, dt):
     self.scanner.pos = (0 - self.scanner.width,0) # hide it outside the viewport
     self.remove_widget(self.mask)
+
 
   def draw_ellipse(self):
     if self.children.count(self.scanner) > 0:
