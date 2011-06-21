@@ -37,9 +37,6 @@ class Learning(Widget):
     self.threshold_reachedMessageSent = False
 
     self.points = []
-
-    # cursor
-#    self.cursor = kivy.uix.image.Image(source=lib.config.CURSOR_IMG_PATH, color=(1,1,1,1))
     
     # ZoneOfInterest
     self.shapes = []
@@ -125,9 +122,6 @@ class Learning(Widget):
 
 # Kivy Callbacks    
   def on_touch_down(self, touch):
-#    self.add_widget(self.cursor)
-#    self.cursor.pos = (touch.x - self.cursor.height / 2, touch.y - self.cursor.width / 2)
-    
     self.draw_ellipse(touch)
     
 

@@ -1,7 +1,7 @@
 # utils
 from kivy.uix.widget import Widget
 from kivy.uix.label import Label
-from kivy.core.image import Image
+import kivy.uix.image
 
 
 from kivy.uix.gridlayout import GridLayout
@@ -12,6 +12,10 @@ from kivy.graphics import *
 from kivy.clock import Clock
 from kivy.properties import NumericProperty
 from kivy.core.window import Window
+
+import config
+
+CURSOR_IMG_PATH = "images/cursor.png"
 
 FADE_RAMP = 0.01
 FADE_SPEED = 0.01
@@ -113,21 +117,25 @@ class ZoneOfInterest(AlphaWidget):
     # TODO:  this extend the touch area (collision) to the size of image. 
     # If image isn't square the whole widget is touch-able.
     self.size = img.size
+    
 
-    """    
-    box_size = (450,150)
-    box_position = self.desc_pos
+class Cursor(Widget):
+  def __init__(self, **kwargs):
+    super(Cursor, self).__init__(**kwargs)
+    
+    self.cursor = kivy.uix.image.Image(source=config.CURSOR_IMG_PATH, color=(1,1,1,1))
 
-    desc_box = Widget()
 
-    label = Label( text=self.desc, 
-                   font_size=15,
-                   font_name="fonts/Akkurat.ttf",
-                   size=box_size,
-                   pos=box_position,
-                   color=(0,0,0,1))
-      
-    desc_box.add_widget(label)
+  def on_touch_down(self, touch):
+    self.add_widget(self.cursor)
+    self.cursor.pos = (touch.x - self.cursor.height / 2, touch.y - self.cursor.width / 2)
 
-    self.desc_box = desc_box
-    """
+
+  def on_touch_move(self, touch):
+    self.cursor.pos = (touch.x - self.cursor.height / 2, touch.y - self.cursor.width / 2)
+
+  def on_touch_up(self, touch):
+    self.remove_widget(self.cursor)
+
+
+
