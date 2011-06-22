@@ -65,7 +65,7 @@ class Learning(Widget):
   def stop(self):
     print "Learning stop() called"
     self.reset()
-    self.unschedule(self.checkTimeout)
+    Clock.unschedule(self.checkTimeout)
 
 
   def fadein(self):

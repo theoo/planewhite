@@ -70,7 +70,7 @@ class Discovering(Widget):
     self.reset()
     self.unpulse()
     Clock.unschedule(self.checkIfModeIsCompleted)
-    self.unschedule(self.checkTimeout)
+    Clock.unschedule(self.checkTimeout)
 
 
   def fadein(self):
