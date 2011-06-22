@@ -21,6 +21,7 @@ from lib.utils import *
 import lib.config, lib.kwargs
 
 # Configuration
+TIMEOUT_DELAY = 10
 
 ########################################################################
 class Discovering(Widget):
@@ -32,6 +33,8 @@ class Discovering(Widget):
     super(Discovering, self).__init__(**kwargs)
 
     self.all_zones_of_interest_viewedMessageSent = False
+    
+    self.last_touch = Clock.get_boottime()
 
     # First item of self.shapes is the background
     self.background_path = "images/bgs/" + str(self.clientIdIndex + 1) + ".jpg"
@@ -58,6 +61,7 @@ class Discovering(Widget):
   def start(self):
     print "Discovering start() called"
     Clock.schedule_once(self.checkIfModeIsCompleted, 1)
+    Clock.schedule_interval(self.checkTimeout, 5)
     self.pulse()
 
     
@@ -66,6 +70,7 @@ class Discovering(Widget):
     self.reset()
     self.unpulse()
     Clock.unschedule(self.checkIfModeIsCompleted)
+    self.unschedule(self.checkTimeout)
 
 
   def fadein(self):
@@ -107,6 +112,13 @@ class Discovering(Widget):
   def unpulse(self):
     for shape in self.shapes:
       Clock.unschedule(shape.pulse_widget_alpha)
+      
+
+  def checkTimeout(self, dt=False):
+    if (Clock.get_boottime() - self.last_touch) > TIMEOUT_DELAY:
+      print "Timeout on mode 3, sending message to switch mode."
+      self.controller.sendMessage("all_zones_of_interest_viewed")
+            
 
 # Kivy callbacks
   def on_touch_down(self, touch):
@@ -120,6 +132,8 @@ class Discovering(Widget):
   def on_touch_up(self, touch):
     # check if mode is complete before so I can read the text.
     # Next touch will throw a message to the server
+    self.last_touch = Clock.get_boottime()
+
     self.checkIfModeIsCompleted()
 
 #    Clock.schedule_once(self.checkIfModeIsCompleted(), 5.0)

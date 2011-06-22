@@ -5,6 +5,7 @@ from kivy.uix.widget import Widget
 from kivy.app import App
 
 from kivy.animation import Animation
+from kivy.clock import Clock
 
 from kivy.uix.boxlayout import BoxLayout
 import kivy.core.image
@@ -19,6 +20,7 @@ import lib.config, lib.kwargs
 # Configuration
 MAX_POINTS = 400 # max points to discover the background
 RATIO = 0.8 # ratio of theses points to reach the next mode
+TIMEOUT_DELAY = 10
 
 ########################################################################
 class Learning(Widget):
@@ -36,6 +38,8 @@ class Learning(Widget):
     
     self.threshold_reachedMessageSent = False
 
+    self.last_touch = Clock.get_boottime()
+    
     self.points = []
     
     # ZoneOfInterest
@@ -55,11 +59,13 @@ class Learning(Widget):
   def start(self):
     print "Learning start() called"
     self.add_shapes()
+    Clock.schedule_interval(self.checkTimeout, 5)
     
     
   def stop(self):
     print "Learning stop() called"
     self.reset()
+    self.unschedule(self.checkTimeout)
 
 
   def fadein(self):
@@ -117,6 +123,13 @@ class Learning(Widget):
   def add_shapes(self):
     for shape in self.shapes:
       self.canvas.add(shape.object)
+      
+      
+  def checkTimeout(self, dt=False):
+    if (Clock.get_boottime() - self.last_touch) > TIMEOUT_DELAY:
+      print "Timeout on mode 2, sending message to switch mode."
+      self.controller.sendMessage("threshold_reached")
+
         
 # Custom Callbacks
 
@@ -129,7 +142,8 @@ class Learning(Widget):
     self.draw_ellipse(touch)       
 
 
-  def on_touch_up(self, touch):    
+  def on_touch_up(self, touch):
+    self.last_touch = Clock.get_boottime()
     self.checkIfModeIsCompleted()    
 
 

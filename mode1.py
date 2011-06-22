@@ -57,7 +57,6 @@ class ScreenSaver(Widget):
       
     self.scanner = kivy.uix.image.Image(source=SCAN_IMG_PATH, size=(218,768), color=(1,1,1,1), pos=(0 - 218,0))
     self.scanner.pos = (self.pos[0] - self.scanner.width,0)
-    self.add_widget(self.scanner)
         
     
     self.mask = Widget()
@@ -84,6 +83,7 @@ class ScreenSaver(Widget):
     print "ScreenSaver stop() called"
     self.reset()
     Clock.unschedule(self.scan)
+    self.remove_widget(self.scanner)    
 
 
   def fadein(self):
@@ -111,8 +111,6 @@ class ScreenSaver(Widget):
     # remove shapes widgets
     for shape in self.shapes:
       self.remove_widget(shape)    
-
-    self.remove_widget(self.scanner)    
     
 
 #    self.remove_widget(self.scanner)    
