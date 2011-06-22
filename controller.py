@@ -42,7 +42,7 @@ class Controller(Widget):
       self.serverIsReady = True
 
       self.stopCurrentMode()
-      self.currentModeId = 3
+      self.currentModeId = 4
       self.updateCurrentMode()
       self.add_widget(self.currentMode)
       # only start if we are numero uno      
