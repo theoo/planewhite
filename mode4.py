@@ -38,6 +38,9 @@ class Credits(Widget):
 
     self.last_runtime = 0.0
 
+    self.credits = ZoneOfInterest(img=Image("images/credits.png"), pos=(11, 175))
+    self.credits.alpha = 0.99
+
     self.background_path = "images/bgs/" + str(self.clientIdIndex + 1) + ".jpg"
     self.perspective_path = "images/perspectives/" + str(self.clientIdIndex + 1) + ".jpg"
 
@@ -93,8 +96,7 @@ class Credits(Widget):
 
       
   def displayCredits(self, instance=False):
-    title = Label(text="Plane White", font_size=50, color=(1,1,1,1), pos=(50,500))
-    self.add_widget(title)
+    self.add_widget(self.credits)
 
 
   def announceTheEnd(self, instance=False):
