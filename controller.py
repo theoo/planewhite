@@ -46,10 +46,10 @@ class Controller(Widget):
       self.updateCurrentMode()
       self.add_widget(self.currentMode)
       # only start if we are numero uno      
-      if self.clientId == "1":
-        self.currentMode.start()
+#      if self.clientId == "1":
+#        self.currentMode.start()
 
-#      self.currentMode.start()
+      self.currentMode.start()
 
     elif message == "scan_start":
       if self.serverIsReady:
