@@ -71,8 +71,6 @@ class Credits(Widget):
     self.remove_widget(self.perspective)
 
     self.reset()
-    Clock.unschedule(self.fadein)
-    Clock.unschedule(self.fadeout)
     Clock.unschedule(self.switchToPerspective)
     Clock.unschedule(self.displayCredits)
     Clock.unschedule(self.announceTheEnd) 
