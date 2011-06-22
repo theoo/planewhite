@@ -21,7 +21,7 @@ import lib.config, lib.kwargs
 
 # Configuration
 SCAN_IMG_PATH = 'images/scan.png'
-SCAN_DURATION = 5.0
+SCAN_DURATION = 1.0
 NETWORK_DELAY = 0 # frames
 TRIGGER_POINTS_THRESHOLD = 150
 
@@ -77,6 +77,7 @@ class ScreenSaver(Widget):
     print "ScreenSaver start() called"
     self.scan_endMessageSent = False
     Clock.schedule_once(self.scan, 0)
+    self.add_widget(self.scanner)    
 
 
   def stop(self):
@@ -111,8 +112,8 @@ class ScreenSaver(Widget):
     for shape in self.shapes:
       self.remove_widget(shape)    
 
-    # reset scanner position
-    self.scanner.pos = (self.pos[0] - self.scanner.width,0)
+    self.remove_widget(self.scanner)    
+    
 
 #    self.remove_widget(self.scanner)    
 #    self.canvas.clear()
@@ -121,9 +122,6 @@ class ScreenSaver(Widget):
 
 # Custom methods
   def scan(self, dt):
-#    sound = SoundLoader.load('screech_blip.wav')
-#    sound.play()
-    
     self.scanner.pos = (self.pos[0] - self.scanner.width,0)    
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
     a1.bind(on_start=self.add_mask)
