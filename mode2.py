@@ -17,7 +17,7 @@ from lib.utils import ZoneOfInterest, AlphaWidget
 import lib.config, lib.kwargs
 
 # Configuration
-MAX_POINTS = 100 # max points to discover the background
+MAX_POINTS = 400 # max points to discover the background
 RATIO = 0.8 # ratio of theses points to reach the next mode
 
 ########################################################################

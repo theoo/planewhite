@@ -19,10 +19,10 @@ import lib.config, lib.kwargs
 FADE_SPEED = 0.01
 ALPHA_INDEX_STEP = 0.01
 
-TOUCH_DELAY = 2.0
-PERSPECTIVE_DELAY = 3.0
-CREDIT_DELAY = 3.0
-SCREENSAVER_DELAY = 15.0
+TOUCH_DELAY = 15.0
+PERSPECTIVE_DELAY = 10.0
+CREDIT_DELAY = 10.0
+SCREENSAVER_DELAY = 30.0
 
 ########################################################################
 class Credits(Widget):
@@ -40,6 +40,11 @@ class Credits(Widget):
 
     self.credits = ZoneOfInterest(img=Image("images/credits.png"), pos=(11, 200))
     self.credits.alpha = 0.99
+    self.label = Label(text="Composition VIII, Kandinsky",
+                        font_size=25, 
+                        color=(0,0,0,1), 
+                        pos=(600,25), 
+                        font_name="fonts/Akkurat.ttf")
 
     self.background_path = "images/bgs/" + str(self.clientIdIndex + 1) + ".jpg"
     self.perspective_path = "images/perspectives/" + str(self.clientIdIndex + 1) + ".jpg"
@@ -58,6 +63,8 @@ class Credits(Widget):
     self.add_widget(self.perspective)
 
     self.background.fadeIn()
+    if self.clientIdIndex == 0:
+      self.add_widget(self.label)
     
     Clock.schedule_once(self.switchToPerspective, PERSPECTIVE_DELAY)
 
@@ -87,6 +94,8 @@ class Credits(Widget):
 
 # Custom callbacks  
   def switchToPerspective(self, instance=False):
+    self.remove_widget(self.label)
+    
     self.background.alpha = 0.99
     self.background.fadeOut()
     

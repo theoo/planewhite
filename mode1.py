@@ -21,9 +21,9 @@ import lib.config, lib.kwargs
 
 # Configuration
 SCAN_IMG_PATH = 'images/scan.png'
-SCAN_DURATION = 1.0
+SCAN_DURATION = 5.0
 NETWORK_DELAY = 0 # frames
-TRIGGER_POINTS_THRESHOLD = 150
+TRIGGER_POINTS_THRESHOLD = 300
 
 ########################################################################
 class ScreenSaver(Widget):
