@@ -21,7 +21,7 @@ from lib.utils import *
 import lib.config, lib.kwargs
 
 # Configuration
-TIMEOUT_DELAY = 10
+TIMEOUT_DELAY = 60
 
 ########################################################################
 class Discovering(Widget):
