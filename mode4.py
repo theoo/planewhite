@@ -38,7 +38,7 @@ class Credits(Widget):
 
     self.last_runtime = 0.0
 
-    self.credits = ZoneOfInterest(img=Image("images/credits.png"), pos=(11, 175))
+    self.credits = ZoneOfInterest(img=Image("images/credits.png"), pos=(11, 200))
     self.credits.alpha = 0.99
 
     self.background_path = "images/bgs/" + str(self.clientIdIndex + 1) + ".jpg"
