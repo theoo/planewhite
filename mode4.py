@@ -93,8 +93,8 @@ class Credits(Widget):
 
       
   def displayCredits(self, instance=False):
-    title = Label(text="Plane White", font_size=50, color=(1,1,1,1), pos=(0,500))
-    self.add_widget(Label(text="Plane White", font_size=50, color=(1,1,1,1), pos=(0,500)))
+    title = Label(text="Plane White", font_size=50, color=(1,1,1,1), pos=(50,500))
+    self.add_widget(title)
 
 
   def announceTheEnd(self, instance=False):
