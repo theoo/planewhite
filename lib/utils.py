@@ -71,7 +71,7 @@ class AlphaWidget(Widget):
   def fadeOut(self, dt=0):
     self.alpha -= FADE_RAMP
     if self.alpha > 0.0:
-      Clock.schedule_once(self.fadeIn, FADE_SPEED)
+      Clock.schedule_once(self.fadeOut, FADE_SPEED)
     else:
       print "Reached full transparency"
 

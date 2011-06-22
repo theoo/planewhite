@@ -34,7 +34,8 @@ class Discovering(Widget):
     self.all_zones_of_interest_viewedMessageSent = False
 
     # First item of self.shapes is the background
-    self.bg_img = Image(lib.config.backgrounds[self.clientIdIndex])
+    self.background_path = "images/bgs/" + str(self.clientIdIndex + 1) + ".jpg"
+    self.bg_img = Image(self.background_path)
     with self.canvas:
       Color(1,1,1,0.75)
       Rectangle(texture=self.bg_img.texture, size=self.bg_img.size, pos=(0,0))

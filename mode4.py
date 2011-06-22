@@ -7,20 +7,22 @@ from kivy.clock import Clock, ClockBase
 from kivy.animation import Animation
 
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.image import Image
+from kivy.core.image import Image
 from kivy.uix.label import Label
 
 from kivy.graphics import *
 
+from lib.utils import ZoneOfInterest
 import lib.config, lib.kwargs
 
 # Configuration
-FADE_IN_SPEED = 0.01
+FADE_SPEED = 0.01
 ALPHA_INDEX_STEP = 0.01
 
 TOUCH_DELAY = 2.0
-CREDIT_DELAY = 5.0
-SCREENSAVER_DELAY = 10.0
+PERSPECTIVE_DELAY = 3.0
+CREDIT_DELAY = 10.0
+SCREENSAVER_DELAY = 15.0
 
 ########################################################################
 class Credits(Widget):
@@ -36,20 +38,28 @@ class Credits(Widget):
 
     self.last_runtime = 0.0
 
-    self.background_path = lib.config.backgrounds[self.clientIdIndex]
+    self.background_path = "images/bgs/" + str(self.clientIdIndex + 1) + ".jpg"
+    self.perspective_path = "images/perspectives/" + str(self.clientIdIndex + 1) + ".jpg"
 
-    with self.canvas:
-      Image(source=self.background_path, size=(1024,768), color=(1,1,1,0))
-
-    self.alpha_index = 0.0
-
+    self.background = ZoneOfInterest(img=Image(self.background_path))
+    self.perspective = ZoneOfInterest(img=Image(self.perspective_path))
 
 # basis
   def start(self):
     print "Credits start() called"    
-    Clock.schedule_once(self.fadeIn, 0)
-    if self.clientIdIndex == 2:
-      Clock.schedule_once(self.displayCredits, CREDIT_DELAY) # easter eggs
+
+    self.background.alpha = 0.0
+    self.perspective.alpha = 0.0
+    
+    self.add_widget(self.background)
+    self.add_widget(self.perspective)
+
+    self.background.fadeIn()
+    
+    Clock.schedule_once(self.switchToPerspective, PERSPECTIVE_DELAY)
+
+    if self.clientIdIndex == 3:
+      Clock.schedule_once(self.displayCredits, CREDIT_DELAY)
     
     Clock.schedule_once(self.announceTheEnd, SCREENSAVER_DELAY) # restart screensaver
     self.last_runtime = Clock.get_boottime()
@@ -57,39 +67,35 @@ class Credits(Widget):
 
   def stop(self):
     print "Credits stop() called"    
+    self.remove_widget(self.background)
+    self.remove_widget(self.perspective)
+
     self.reset()
-    Clock.unschedule(self.fadeIn)
+    Clock.unschedule(self.fadein)
+    Clock.unschedule(self.fadeout)
+    Clock.unschedule(self.switchToPerspective)
     Clock.unschedule(self.displayCredits)
-    Clock.unschedule(self.announceTheEnd)
-
-  def fadein(self):
-    pass
-
-
-  def fadeout(self):
-    pass    
-
+    Clock.unschedule(self.announceTheEnd) 
+    
 
   def reset(self):
-    self.alpha_index = 0.0    
     self.credits_touchedMessageSent = False
     self.credits_timeoutMessageSent = False
 
 # Custom methods
-  def fadeIn(self, instance=False):
-    self.alpha_index += ALPHA_INDEX_STEP
-    
-    self.canvas.clear()  
-    with self.canvas:
-      Image(source=self.background_path, size=(1024,768), color=(1,1,1,self.alpha_index))
-    
-    if self.alpha_index <= 1.0:
-      Clock.schedule_once(self.fadeIn,FADE_IN_SPEED)
-
 
 # Custom callbacks  
+  def switchToPerspective(self, instance=False):
+    self.background.alpha = 0.99
+    self.background.fadeOut()
+    
+    self.perspective.alpha = 0.0
+    self.perspective.fadeIn()
+
+
+      
   def displayCredits(self, instance=False):
-      self.add_widget(Label(text="Carina Ow.", font_size=50, color=(0,0,0,1), pos=Window.center))
+    self.add_widget(Label(text="Carina Ow.", font_size=50, color=(1,0,0,1), pos=Window.center))
 
 
   def announceTheEnd(self, instance=False):

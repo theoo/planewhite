@@ -32,7 +32,7 @@ class Learning(Widget):
     # Widget position
     self.pos = (lib.config.viewport[self.clientIdIndex][0], 0)
     self.width = lib.config.viewport[self.clientIdIndex][1]
-    self.background_path = lib.config.backgrounds[self.clientIdIndex]
+    self.background_path = "images/bgs/" + str(self.clientIdIndex + 1) + ".jpg"
     
     self.threshold_reachedMessageSent = False
 
