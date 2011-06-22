@@ -38,7 +38,7 @@ class Learning(Widget):
     
     self.threshold_reachedMessageSent = False
 
-    self.last_touch = Clock.get_boottime()
+    self.last_touch = 0
     
     self.points = []
     
@@ -59,7 +59,10 @@ class Learning(Widget):
   def start(self):
     print "Learning start() called"
     self.add_shapes()
+    
+    self.last_touch = Clock.get_time()
     Clock.schedule_interval(self.checkTimeout, 5)
+
     
     
   def stop(self):
@@ -126,7 +129,7 @@ class Learning(Widget):
       
       
   def checkTimeout(self, dt=False):
-    if (Clock.get_boottime() - self.last_touch) > TIMEOUT_DELAY:
+    if abs(Clock.get_time() - self.last_touch) > TIMEOUT_DELAY:
       print "Timeout on mode 2, sending message to switch mode."
       self.controller.sendMessage("threshold_reached")
 
@@ -143,7 +146,7 @@ class Learning(Widget):
 
 
   def on_touch_up(self, touch):
-    self.last_touch = Clock.get_boottime()
+    self.last_touch = Clock.get_time()
     self.checkIfModeIsCompleted()    
 
 

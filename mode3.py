@@ -34,7 +34,7 @@ class Discovering(Widget):
 
     self.all_zones_of_interest_viewedMessageSent = False
     
-    self.last_touch = Clock.get_boottime()
+    self.last_touch = 0
 
     # First item of self.shapes is the background
     self.background_path = "images/bgs/" + str(self.clientIdIndex + 1) + ".jpg"
@@ -61,6 +61,8 @@ class Discovering(Widget):
   def start(self):
     print "Discovering start() called"
     Clock.schedule_once(self.checkIfModeIsCompleted, 1)
+    
+    self.last_touch = Clock.get_time()    
     Clock.schedule_interval(self.checkTimeout, 5)
     self.pulse()
 
@@ -115,7 +117,7 @@ class Discovering(Widget):
       
 
   def checkTimeout(self, dt=False):
-    if (Clock.get_boottime() - self.last_touch) > TIMEOUT_DELAY:
+    if (Clock.get_time() - self.last_touch) > TIMEOUT_DELAY:
       print "Timeout on mode 3, sending message to switch mode."
       self.controller.sendMessage("all_zones_of_interest_viewed")
             
@@ -132,7 +134,7 @@ class Discovering(Widget):
   def on_touch_up(self, touch):
     # check if mode is complete before so I can read the text.
     # Next touch will throw a message to the server
-    self.last_touch = Clock.get_boottime()
+    self.last_touch = Clock.get_time()
 
     self.checkIfModeIsCompleted()
 
