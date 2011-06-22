@@ -21,7 +21,7 @@ ALPHA_INDEX_STEP = 0.01
 
 TOUCH_DELAY = 2.0
 PERSPECTIVE_DELAY = 3.0
-CREDIT_DELAY = 10.0
+CREDIT_DELAY = 5.0
 SCREENSAVER_DELAY = 15.0
 
 ########################################################################
@@ -95,7 +95,8 @@ class Credits(Widget):
 
       
   def displayCredits(self, instance=False):
-    self.add_widget(Label(text="Carina Ow.", font_size=50, color=(1,0,0,1), pos=Window.center))
+    title = Label(text="Plane White", font_size=50, color=(1,1,1,1), pos=(0,500))
+    self.add_widget()
 
 
   def announceTheEnd(self, instance=False):
