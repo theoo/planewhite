@@ -40,6 +40,7 @@ class Credits(Widget):
 
     self.credits = ZoneOfInterest(img=Image("images/credits.png"), pos=(11, 200))
     self.credits.alpha = 0.99
+    
     self.label = Label(text="Composition VIII, Kandinsky",
                         font_size=25, 
                         color=(0,0,0,1), 
@@ -79,6 +80,7 @@ class Credits(Widget):
     print "Credits stop() called"    
     self.remove_widget(self.background)
     self.remove_widget(self.perspective)
+    self.remove_widget(self.credits)
 
     self.reset()
     Clock.unschedule(self.switchToPerspective)
