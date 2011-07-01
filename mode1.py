@@ -97,6 +97,17 @@ class ScreenSaver(Widget):
       self.remove_widget(shape)
     
 
+  def fadein(self):
+    self.fadeInMessageReceived = True
+    print "ScreenSaver fadeIn() called"
+    self.points = []
+    self.draw_ellipse()
+
+    for shape in self.shapes:
+      shape.alpha = 0.0
+      shape.fadeIn()
+      self.add_widget(shape)
+
 # Custom methods
   def scan(self, dt=False):    
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
