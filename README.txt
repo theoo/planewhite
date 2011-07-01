@@ -1,0 +1,17 @@
+
+This software is an order of the "Haute Ecole d'Art et Design" of Geneva, to the request of Carina Ow, Student in "Espace Communication"
+We wrote this in less than a week, with a framework absolutely new for us.
+
+I sincerly implore the indulgence of the reader.
+
+Please write to admin@complex.ch if you have questions.
+
+
+###############
+Many thanks to
+###############
+The Kivy developpers crew, and online people who answered my questions,
+Carina Ow, for her interesting project
+David Hodggets, for his essential help
+La Haute Ecole d'Art et Design of Geneva, for paying me
+

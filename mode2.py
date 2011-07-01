@@ -19,8 +19,8 @@ import lib.config, lib.kwargs
 
 # Configuration
 MAX_POINTS = 400 # max points to discover the background
-RATIO = 0.8 # ratio of theses points to reach the next mode
-TIMEOUT_DELAY = 60
+RATIO = 0.8 # ratio of theses points to jump the next mode
+TIMEOUT_DELAY = 60 # before it jumps to next mode if not touched
 
 ########################################################################
 class Learning(Widget):

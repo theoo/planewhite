@@ -16,13 +16,10 @@ from lib.utils import ZoneOfInterest
 import lib.config, lib.kwargs
 
 # Configuration
-FADE_SPEED = 0.01
-ALPHA_INDEX_STEP = 0.01
-
-TOUCH_DELAY = 15.0
-PERSPECTIVE_DELAY = 10.0
-CREDIT_DELAY = 10.0
-SCREENSAVER_DELAY = 30.0
+TOUCH_DELAY = 15.0 # seconds before a touch switch to mode 1
+PERSPECTIVE_DELAY = 10.0 # seconds before switching the background to perspective
+CREDIT_DELAY = 10.0 # seconds before it displays credits
+SCREENSAVER_DELAY = 30.0 # before jumping to next mode, mode 1
 
 ########################################################################
 class Credits(Widget):

@@ -36,9 +36,10 @@ class Controller(Widget):
       self.serverIsReady = False
 
       self.stopCurrentMode()
+      self.reset_all_modes()
       self.currentModeId = -1
 
-    elif message == "change_mode/1":        # mode 1 messages
+    elif message == "change_mode/1": # mode 1 messages
       self.serverIsReady = True
 
       self.stopCurrentMode()
@@ -59,14 +60,14 @@ class Controller(Widget):
       if self.serverIsReady:
         self.currentMode.fadein()
    
-    elif message == "change_mode/2":        # mode 2 messages
+    elif message == "change_mode/2": # mode 2 messages
       self.stopCurrentMode()
       self.currentModeId = 2
       self.updateCurrentMode()
       self.add_widget(self.currentMode)
       self.currentMode.start()
 
-    elif message == "change_mode/3":      # mode 3 messages
+    elif message == "change_mode/3": # mode 3 messages
       self.stopCurrentMode()
       self.currentModeId = 3
       self.updateCurrentMode()
@@ -95,6 +96,11 @@ class Controller(Widget):
 
     self.currentMode.stop()
     self.remove_widget(self.currentMode)
+    
+  
+  def reset_all_modes(self):
+    for mode in self.modes:
+      mode.reset()
     
 
   def updateCurrentMode(self):

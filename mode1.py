@@ -1,5 +1,7 @@
 # ScreenSaver
 
+from kivy.logger import Logger
+
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.app import App
@@ -20,10 +22,10 @@ from lib.utils import ZoneOfInterest
 import lib.config, lib.kwargs
 
 # Configuration
-SCAN_IMG_PATH = 'images/scan.png'
-SCAN_DURATION = 5.0
-NETWORK_DELAY = 0 # frames
-TRIGGER_POINTS_THRESHOLD = 300
+SCAN_IMG_PATH = 'images/scan.png' # scanner image
+SCAN_DURATION = 1.0 # scan duration, by screen
+NETWORK_DELAY = 0 # increase this value if you want to anticipate sync between two screens
+TRIGGER_POINTS_THRESHOLD = 300 # amount of point to reveal to switch mode
 
 ########################################################################
 class ScreenSaver(Widget):
@@ -62,6 +64,8 @@ class ScreenSaver(Widget):
     self.mask = Widget()
     self.mask.canvas.add(Color(0,0,0,1,mode="rgb"))
     self.mask.canvas.add(Rectangle(size=self.scanner.size, pos=(self.pos[0] + self.width,0)))
+
+#    self.add_widget(self.scanner)
     
     # cartel
 #    self.cartel = Label(text="PlaneWhite", pos=(600,650), font_size=60, color=(1,1,1,1), halign="right")
@@ -71,35 +75,15 @@ class ScreenSaver(Widget):
     
 
 # basis
-  def start(self):
+  def start(self, dt=False):
     # start is called on each scan, not only when changin mode.
     print "ScreenSaver start() called"
     self.scan_endMessageSent = False
-    Clock.schedule_once(self.scan, 0)
-    self.add_widget(self.scanner)    
-
+    self.scan()
 
   def stop(self):
     print "ScreenSaver stop() called"
     self.reset()
-    Clock.unschedule(self.scan)
-    self.remove_widget(self.scanner)    
-
-
-  def fadein(self):
-    self.fadeInMessageReceived = True
-    print "ScreenSaver fadeIn() called"
-    self.points = []
-    self.draw_ellipse()
-    
-    for shape in self.shapes:
-      shape.alpha = 0.0
-      shape.fadeIn()
-      self.add_widget(shape)
-      
-
-  def fadeout(self):
-    pass    
 
     
   def reset(self):
@@ -110,30 +94,27 @@ class ScreenSaver(Widget):
 
     # remove shapes widgets
     for shape in self.shapes:
-      self.remove_widget(shape)    
-    
-
-#    self.remove_widget(self.scanner)    
-#    self.canvas.clear()
-#    self.add_widget(self.scanner)
+      self.remove_widget(shape)
     
 
 # Custom methods
-  def scan(self, dt):
-    self.scanner.pos = (self.pos[0] - self.scanner.width,0)    
+  def scan(self, dt=False):    
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
-    a1.bind(on_start=self.add_mask)
-    a1.bind(on_progress=self.syncServerCommunication)
-    a1.bind(on_complete=self.remove_mask)
+    a1.bind(on_start=self.add_scanner)
+#    a1.bind(on_progress=self.syncServerCommunication)
+    a1.bind(on_complete=self.remove_scanner)
     a1.start(self.scanner)
 
 
-  def add_mask(self, target, dt):
+  def add_scanner(self, target, dt):
+    self.scanner.pos = (self.pos[0] - self.scanner.width,0) # hide it outside the viewport
     self.add_widget(self.mask)
+    self.add_widget(self.scanner)
 
 
-  def remove_mask(self, target, dt):
-    self.scanner.pos = (0 - self.scanner.width,0) # hide it outside the viewport
+  def remove_scanner(self, target, dt):
+    self.scanner.pos = (self.pos[0] - self.scanner.width,0) # hide it outside the viewport
+    self.remove_widget(self.scanner)
     self.remove_widget(self.mask)
 
 
@@ -160,6 +141,7 @@ class ScreenSaver(Widget):
     if self.children.count(self.scanner) == 0:
       self.add_widget(self.scanner)
 
+
   def add_trigger_point(self, touch):
     for shape in self.shapes:
       if shape.collide_point(*touch.pos):
@@ -172,7 +154,7 @@ class ScreenSaver(Widget):
       if not self.scan_endMessageSent:
         if not self.fadeInMessageReceived:
           print "Scan reached right of screen."
-          self.controller.sendMessage("scan_end") # sync next client
+#          self.controller.sendMessage("scan_end") # sync next client
           self.scan_endMessageSent = True
 
 
@@ -207,7 +189,7 @@ if __name__ == '__main__':
       def build(self):
         base = Widget()
         ss = ScreenSaver()
-        ss.start()
+        Clock.schedule_interval(ss.start, 2)
         base.add_widget(ss)
         
         return base

@@ -21,7 +21,7 @@ from lib.utils import *
 import lib.config, lib.kwargs
 
 # Configuration
-TIMEOUT_DELAY = 60
+TIMEOUT_DELAY = 60 # before it jumps to next mode if not touched
 
 ########################################################################
 class Discovering(Widget):
