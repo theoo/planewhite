@@ -65,7 +65,6 @@ class ScreenSaver(Widget):
     self.mask.canvas.add(Color(0,0,0,1,mode="rgb"))
     self.mask.canvas.add(Rectangle(size=self.scanner.size, pos=(self.pos[0] + self.width,0)))
 
-#    self.add_widget(self.scanner)
     
     # cartel
 #    self.cartel = Label(text="PlaneWhite", pos=(600,650), font_size=60, color=(1,1,1,1), halign="right")
@@ -80,6 +79,7 @@ class ScreenSaver(Widget):
     print "ScreenSaver start() called"
     self.scan_endMessageSent = False
     self.scan()
+
 
   def stop(self):
     print "ScreenSaver stop() called"
@@ -108,23 +108,24 @@ class ScreenSaver(Widget):
       shape.fadeIn()
       self.add_widget(shape)
 
+
 # Custom methods
-  def scan(self, dt=False):    
+  def scan(self, dt=False):        
+    self.scanner.pos = (self.pos[0] - self.scanner.width,0) # hide it outside the viewport
+
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
     a1.bind(on_start=self.add_scanner)
     a1.bind(on_progress=self.syncServerCommunication)
     a1.bind(on_complete=self.remove_scanner)
-    a1.start(self.scanner)
+    a1.start(self.scanner)    
 
 
   def add_scanner(self, target, dt):
-    self.scanner.pos = (self.pos[0] - self.scanner.width,0) # hide it outside the viewport
     self.add_widget(self.mask)
     self.add_widget(self.scanner)
 
 
   def remove_scanner(self, target, dt):
-    self.scanner.pos = (self.pos[0] - self.scanner.width,0) # hide it outside the viewport
     self.remove_widget(self.scanner)
     self.remove_widget(self.mask)
 
