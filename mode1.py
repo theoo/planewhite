@@ -23,7 +23,7 @@ import lib.config, lib.kwargs
 
 # Configuration
 SCAN_IMG_PATH = 'images/scan.png' # scanner image
-SCAN_DURATION = 1.0 # scan duration, by screen
+SCAN_DURATION = 5.0 # scan duration, by screen
 NETWORK_DELAY = 0 # increase this value if you want to anticipate sync between two screens
 TRIGGER_POINTS_THRESHOLD = 300 # amount of point to reveal to switch mode
 
@@ -125,23 +125,25 @@ class ScreenSaver(Widget):
 
 
   def add_scanner(self, target, dt):
-    self.add_widget(self.scanner)
-    self.add_widget(self.mask)
+    if self.children.count(self.scanner) == 0:
+
+      self.add_widget(self.scanner)
+      self.add_widget(self.mask)
 
 
-  def remove_scanner(self, target, dt):
-    self.scanner.pos = (self.pos[0] - self.scanner.width,0) # hide it outside the viewport    
+  def remove_scanner(self, target=False, dt=False):
+#    self.scanner.pos = (self.pos[0] - self.scanner.width,0) # hide it outside the viewport    
 
-    while self.children.count(self.scanner) > 0:
-      self.remove_widget(self.scanner)
+    if self.children.count(self.scanner) > 0:  
+      while self.children.count(self.scanner) > 0:
+        self.remove_widget(self.scanner)
 
-    self.remove_widget(self.mask)
+      self.remove_widget(self.mask)
 
 
   def draw_ellipse(self):
-    if self.children.count(self.scanner) > 0:
-      self.remove_widget(self.scanner)
-
+    self.remove_scanner()
+    
     self.canvas.clear()
        
     with self.canvas:
@@ -158,9 +160,8 @@ class ScreenSaver(Widget):
       
       StencilPop()
 
-    if self.children.count(self.scanner) == 0:
-      self.add_widget(self.scanner)
-
+    self.add_scanner()
+    
 
   def add_trigger_point(self, touch):
     for shape in self.shapes:
