@@ -126,6 +126,7 @@ class ScreenSaver(Widget):
 
 
   def remove_scanner(self, target, dt):
+    self.scanner.pos = (self.pos[0] - self.scanner.width,0) # hide it outside the viewport    
     self.remove_widget(self.scanner)
     self.remove_widget(self.mask)
 
