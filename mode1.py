@@ -91,10 +91,12 @@ class ScreenSaver(Widget):
     self.fadeInMessageReceived = False
     self.points = []
     self.trigger_points = []
-
+    
     # remove shapes widgets
     for shape in self.shapes:
       self.remove_widget(shape)
+
+    self.draw_ellipse()
     
 
   def fadein(self):
@@ -115,7 +117,7 @@ class ScreenSaver(Widget):
 
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
     a1.bind(on_start=self.add_scanner)
-    a1.bind(on_progress=self.syncServerCommunication)
+#    a1.bind(on_progress=self.syncServerCommunication)
     a1.bind(on_complete=self.remove_scanner)
     a1.start(self.scanner)    
 
@@ -127,6 +129,7 @@ class ScreenSaver(Widget):
 
   def remove_scanner(self, target, dt):
     self.scanner.pos = (self.pos[0] - self.scanner.width,0) # hide it outside the viewport    
+    Logger.info(str(self.children.count(self.scanner)))
     self.remove_widget(self.scanner)
     self.remove_widget(self.mask)
 
