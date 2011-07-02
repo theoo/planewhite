@@ -63,8 +63,10 @@ class ScreenSaver(Widget):
     
     self.mask = Widget()
     self.mask.canvas.add(Color(0,0,0,1,mode="rgb"))
-    self.mask.canvas.add(Rectangle(size=self.scanner.size, pos=(self.pos[0] + self.width,0)))
-
+    if self.clientIdIndex == 0:
+      self.mask.canvas.add(Rectangle(size=self.scanner.size, pos=(self.pos[0] - self.scanner.width,0)))
+    else:
+      self.mask.canvas.add(Rectangle(size=self.scanner.size, pos=(self.pos[0] + self.width,0)))    
     
     # cartel
 #    self.cartel = Label(text="PlaneWhite", pos=(600,650), font_size=60, color=(1,1,1,1), halign="right")
@@ -117,7 +119,7 @@ class ScreenSaver(Widget):
 
     a1 = Animation(pos=(self.pos[0] + self.width, 0), duration=self.scan_duration)
     a1.bind(on_start=self.add_scanner)
-#    a1.bind(on_progress=self.syncServerCommunication)
+    a1.bind(on_progress=self.syncServerCommunication)
     a1.bind(on_complete=self.remove_scanner)
     a1.start(self.scanner)    
 
@@ -129,8 +131,10 @@ class ScreenSaver(Widget):
 
   def remove_scanner(self, target, dt):
     self.scanner.pos = (self.pos[0] - self.scanner.width,0) # hide it outside the viewport    
-    Logger.info(str(self.children.count(self.scanner)))
-    self.remove_widget(self.scanner)
+
+    while self.children.count(self.scanner) > 0:
+      self.remove_widget(self.scanner)
+
     self.remove_widget(self.mask)
 
 
