@@ -23,7 +23,7 @@ import lib.config, lib.kwargs
 
 # Configuration
 SCAN_IMG_PATH = 'images/scan.png' # scanner image
-SCAN_DURATION = 1.0 # scan duration, by screen
+SCAN_DURATION = 5.0 # scan duration, by screen
 NETWORK_DELAY = 0 # increase this value if you want to anticipate sync between two screens
 TRIGGER_POINTS_THRESHOLD = 300 # amount of point to reveal to switch mode
 
