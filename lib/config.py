@@ -4,7 +4,7 @@ host = "10.0.0.1"
 port = 4000
 
 # client config
-viewport = [(600, 1024), (0, 1024), (0, 1024), (0, 600)]
+viewport = [(382, 1024), (0, 1024), (0, 1024), (0, 600)]
 
 #zones_of_interest = [ [],
 #                      [ ["images/cut/2_258x574.png", (258, 768 - 574), "This is a wonderful demonstration\n of ten words for carina's sake.", (50,500)] ], 
