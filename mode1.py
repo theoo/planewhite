@@ -124,7 +124,7 @@ class ScreenSaver(Widget):
     a1.start(self.scanner)    
 
 
-  def add_scanner(self, target, dt):
+  def add_scanner(self, target=False, dt=False):
     if self.children.count(self.scanner) == 0:
 
       self.add_widget(self.scanner)
