@@ -50,8 +50,6 @@ class Controller(Widget):
       if self.clientId == "1":
         self.currentMode.start()
 
-#      self.currentMode.start()
-
     elif message == "scan_start":
       if self.serverIsReady:
         self.currentMode.start()
